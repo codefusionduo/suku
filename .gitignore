@@ -1,3 +1,2 @@
-# Ignore massive knowledge base files
-knowledge-base*.js
+# Ignore log files
 *.log
