@@ -626,6 +626,7 @@ function loadSettingsUI() {
     const thresholdEl = document.getElementById('setting-threshold');
     const contextEl = document.getElementById('setting-context');
     const autolearnEl = document.getElementById('setting-autolearn');
+    const geminiKeyEl = document.getElementById('setting-gemini-key');
 
     if (nameEl) nameEl.value = settings.name || 'Suku';
     if (styleEl) styleEl.value = settings.style || 'casual';
@@ -636,6 +637,7 @@ function loadSettingsUI() {
     }
     if (contextEl) contextEl.value = settings.contextSize || 5;
     if (autolearnEl) autolearnEl.checked = settings.autoLearn !== false;
+    if (geminiKeyEl) geminiKeyEl.value = settings.geminiApiKey || '';
 }
 
 function updateSettings() {
@@ -645,7 +647,8 @@ function updateSettings() {
         speed: document.getElementById('setting-speed').value,
         threshold: parseFloat(document.getElementById('setting-threshold').value),
         contextSize: parseInt(document.getElementById('setting-context').value),
-        autoLearn: document.getElementById('setting-autolearn').checked
+        autoLearn: document.getElementById('setting-autolearn').checked,
+        geminiApiKey: document.getElementById('setting-gemini-key').value || ''
     };
 
     ai.updateSettings(settings);

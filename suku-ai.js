@@ -8,138 +8,6 @@ class SukuAI {
     constructor() {
         this.nlp = new NLPEngine();
         this.kb = new KnowledgeBase();
-        
-        // Load the massive multi-file data if it exists (Part 3)
-        if (window.knowledgeDataPart3) {
-            console.log("Loading Knowledge Base Part 3 (10,000,000 lines)...");
-            for (const entry of window.knowledgeDataPart3) {
-                this.kb.add({
-                    ...entry,
-                    isUserTrained: false
-                });
-            }
-            console.log("Part 3 Loaded.");
-        }
-
-        // Load the massive multi-file data if it exists (Part 4)
-        if (window.knowledgeDataPart4) {
-            console.log("Loading Knowledge Base Part 4 (10,000,000 lines)...");
-            for (const entry of window.knowledgeDataPart4) {
-                this.kb.add({
-                    ...entry,
-                    isUserTrained: false
-                });
-            }
-            console.log("Part 4 Loaded.");
-        }
-
-        // Load the massive multi-file data if it exists (Part 5)
-        if (window.knowledgeDataPart5) {
-            console.log("Loading Knowledge Base Part 5 (10,000,000 lines)...");
-            for (const entry of window.knowledgeDataPart5) {
-                this.kb.add({
-                    ...entry,
-                    isUserTrained: false
-                });
-            }
-            console.log("Part 5 Loaded.");
-        }
-
-        // Load the massive multi-file data if it exists (Part 6)
-        if (window.knowledgeDataPart6) {
-            console.log("Loading Knowledge Base Part 6 (10,000,000 lines)...");
-            for (const entry of window.knowledgeDataPart6) {
-                this.kb.add({
-                    ...entry,
-                    isUserTrained: false
-                });
-            }
-            console.log("Part 6 Loaded.");
-        }
-
-        // Load the massive multi-file data if it exists (Part 7)
-        if (window.knowledgeDataPart7) {
-            console.log("Loading Knowledge Base Part 7 (10,000,000 lines)...");
-            for (const entry of window.knowledgeDataPart7) {
-                this.kb.add({
-                    ...entry,
-                    isUserTrained: false
-                });
-            }
-            console.log("Part 7 Loaded.");
-        }
-
-        // Load the massive multi-file data if it exists (Part 8)
-        if (window.knowledgeDataPart8) {
-            console.log("Loading Knowledge Base Part 8 (10,000,000 lines)...");
-            for (const entry of window.knowledgeDataPart8) {
-                this.kb.add({
-                    ...entry,
-                    isUserTrained: false
-                });
-            }
-            console.log("Part 8 Loaded.");
-        }
-
-        // Load the massive multi-file data if it exists (Part 9)
-        if (window.knowledgeDataPart9) {
-            console.log("Loading Knowledge Base Part 9 (10,000,000 lines)...");
-            for (const entry of window.knowledgeDataPart9) {
-                this.kb.add({
-                    ...entry,
-                    isUserTrained: false
-                });
-            }
-            console.log("Part 9 Loaded.");
-        }
-
-        // Load the massive multi-file data if it exists (Part 10)
-        if (window.knowledgeDataPart10) {
-            console.log("Loading Knowledge Base Part 10 (10,000,000 lines)...");
-            for (const entry of window.knowledgeDataPart10) {
-                this.kb.add({
-                    ...entry,
-                    isUserTrained: false
-                });
-            }
-            console.log("Part 10 Loaded.");
-        }
-
-        // Load the massive multi-file data if it exists (Part 11)
-        if (window.knowledgeDataPart11) {
-            console.log("Loading Knowledge Base Part 11 (10,000,000 lines)...");
-            for (const entry of window.knowledgeDataPart11) {
-                this.kb.add({
-                    ...entry,
-                    isUserTrained: false
-                });
-            }
-            console.log("Part 11 Loaded.");
-        }
-
-        // Load the massive multi-file data if it exists (Part 12)
-        if (window.knowledgeDataPart12) {
-            console.log("Loading Knowledge Base Part 12 (10,000,000 lines)...");
-            for (const entry of window.knowledgeDataPart12) {
-                this.kb.add({
-                    ...entry,
-                    isUserTrained: false
-                });
-            }
-            console.log("Part 12 Loaded.");
-        }
-
-        // Load the massive multi-file data if it exists (Part 13)
-        if (window.knowledgeDataPart13) {
-            console.log("Loading Knowledge Base Part 13 (10,000,000 lines)...");
-            for (const entry of window.knowledgeDataPart13) {
-                this.kb.add({
-                    ...entry,
-                    isUserTrained: false
-                });
-            }
-            console.log("Part 13 Loaded.");
-        }
 
         this.context = []; // Conversation history
         this.settings = this.kb.loadSettings();
@@ -214,11 +82,11 @@ class SukuAI {
         }
         // Handle context-aware responses
         else if (this.isContextualFollowUp(trimmed)) {
-            response = this.handleContextual(trimmed, processed);
+            response = await this.handleContextual(trimmed, processed);
         }
         // Standard pattern matching
         else {
-            response = this.findBestMatch(trimmed, processed, intentInfo);
+            response = await this.findBestMatch(trimmed, processed, intentInfo);
         }
 
         // Add AI response to context
@@ -354,7 +222,7 @@ class SukuAI {
         const lower = text.toLowerCase().trim();
         const contextualPhrases = ['yes', 'no', 'sure', 'okay', 'ok', 'yeah', 'nah', 
                                     'tell me more', 'more', 'go on', 'continue',
-                                    'another one', 'one more', 'again', 'and', 'also',
+                                     'another one', 'one more', 'again', 'and', 'also',
                                     'what else', 'anything else'];
         return contextualPhrases.includes(lower) || lower.length < 4;
     }
@@ -362,18 +230,18 @@ class SukuAI {
     /**
      * Handle contextual follow-ups
      */
-    handleContextual(text, processed) {
+    async handleContextual(text, processed) {
         const lower = text.toLowerCase().trim();
         const lastAI = this.getLastAIMessage();
 
         // If the last response was a joke, and they want more
         if (['another one', 'one more', 'again', 'more', 'another'].includes(lower)) {
             if (lastAI && (lastAI.includes('joke') || lastAI.includes('😄') || lastAI.includes('😂'))) {
-                return this.findBestMatch('tell me another joke', this.nlp.process('tell me another joke'), 
+                return await this.findBestMatch('tell me another joke', this.nlp.process('tell me another joke'), 
                     this.nlp.detectIntent('tell me another joke'));
             }
             if (lastAI && lastAI.includes('fact')) {
-                return this.findBestMatch('tell me a fact', this.nlp.process('tell me a fact'),
+                return await this.findBestMatch('tell me a fact', this.nlp.process('tell me a fact'),
                     this.nlp.detectIntent('tell me a fact'));
             }
         }
@@ -396,7 +264,7 @@ class SukuAI {
         }
 
         // Default to standard matching
-        return this.findBestMatch(text, processed, this.nlp.detectIntent(text));
+        return await this.findBestMatch(text, processed, this.nlp.detectIntent(text));
     }
 
     /**
@@ -412,9 +280,55 @@ class SukuAI {
     }
 
     /**
+     * Call Gemini API for smart responses
+     */
+    async callGeminiAPI(userInput) {
+        const apiKey = this.settings.geminiApiKey;
+        if (!apiKey) return null;
+
+        try {
+            // Map context size
+            const maxContext = parseInt(this.settings.contextSize) || 5;
+            const recentContext = this.context.slice(-maxContext * 2);
+
+            const contents = recentContext.map(msg => ({
+                role: msg.role === 'ai' ? 'model' : 'user',
+                parts: [{ text: msg.text }]
+            }));
+
+            const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ contents })
+            });
+
+            if (!response.ok) {
+                const errData = await response.json();
+                console.error('Gemini API Error:', errData);
+                return null;
+            }
+
+            const data = await response.json();
+            if (data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts[0]) {
+                return {
+                    text: data.candidates[0].content.parts[0].text,
+                    confidence: 0.99,
+                    intent: 'gemini',
+                    isGemini: true
+                };
+            }
+        } catch (e) {
+            console.error('Failed to call Gemini API:', e);
+        }
+        return null;
+    }
+
+    /**
      * Find the best matching response from the knowledge base
      */
-    findBestMatch(input, processed, intentInfo) {
+    async findBestMatch(input, processed, intentInfo) {
         const threshold = parseFloat(this.settings.threshold) || 0.45;
         const entries = this.kb.getAll();
         
@@ -459,6 +373,16 @@ class SukuAI {
                 matchedPattern: bestMatch.patterns[0],
                 entryId: bestEntryId
             };
+        }
+
+        // No good match — use Gemini if key is provided
+        if (this.settings.geminiApiKey) {
+            const geminiResponse = await this.callGeminiAPI(input);
+            if (geminiResponse) {
+                this.kb.recordMatch('gemini', 0.99);
+                this.kb.logActivity('chat', `Gemini fallback: "${input.substring(0, 40)}"`);
+                return geminiResponse;
+            }
         }
 
         // No good match — use fallback based on sentiment
