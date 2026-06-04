@@ -8,7 +8,7 @@
 (function() {
     'use strict';
 
-    const EXTENDED_DATA_VERSION = 'v2.0';
+    const EXTENDED_DATA_VERSION = 'v3.0';
     const STORAGE_FLAG = 'suku_extended_data_loaded';
 
     // Check if extended data was already loaded
