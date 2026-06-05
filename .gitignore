@@ -1,3 +1,4 @@
 # Ignore log files
 *.log
-suku-training-massive.js
+suku-training-massive*.js
+scratch/
