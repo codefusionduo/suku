@@ -34,6 +34,11 @@ document.addEventListener('DOMContentLoaded', () => {
     renderAnalytics();
     renderKnowledgeBase();
 
+    // Check if admin is logged in
+    if (sessionStorage.getItem('suku_admin') === 'true') {
+        showAdminFeatures();
+    }
+
     console.log('🧠 Suku AI initialized! Ready to chat.');
 });
 
@@ -681,6 +686,27 @@ function exportFullBackup() {
     const data = ai.kb.exportFullBackup();
     downloadFile('suku-ai-backup.json', data);
     showToast('Full backup exported!', 'success');
+}
+
+function verifyAdmin() {
+    const email = document.getElementById('setting-admin-email').value.trim();
+    // Simple hash to hide the actual email string in source code
+    const hash = email.split('').reduce((a,b)=>{a=((a<<5)-a)+b.charCodeAt(0);return a&a},0);
+    
+    if (hash === -660295202) { // Hash for the admin email
+        sessionStorage.setItem('suku_admin', 'true');
+        showAdminFeatures();
+        showToast('Admin access granted!', 'success');
+        document.getElementById('setting-admin-email').value = '';
+    } else {
+        showToast('Invalid admin email', 'error');
+    }
+}
+
+function showAdminFeatures() {
+    document.querySelectorAll('.admin-only').forEach(el => {
+        el.style.display = ''; // Reset display to default
+    });
 }
 
 // ===== STATS UPDATE =====

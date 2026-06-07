@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
 </head>
 <body>
     <!-- Animated Background -->
@@ -50,15 +51,15 @@
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
                     <span>Chat</span>
                 </button>
-                <button id="nav-train" class="nav-item" onclick="switchView('train')">
+                <button id="nav-train" class="nav-item admin-only" style="display: none;" onclick="switchView('train')">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
                     <span>Train</span>
                 </button>
-                <button id="nav-knowledge" class="nav-item" onclick="switchView('knowledge')">
+                <button id="nav-knowledge" class="nav-item admin-only" style="display: none;" onclick="switchView('knowledge')">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
                     <span>Knowledge</span>
                 </button>
-                <button id="nav-analytics" class="nav-item" onclick="switchView('analytics')">
+                <button id="nav-analytics" class="nav-item admin-only" style="display: none;" onclick="switchView('analytics')">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
                     <span>Analytics</span>
                 </button>
@@ -497,7 +498,21 @@
                         </div>
                     </div>
 
-                    <div class="settings-group danger">
+                    <div class="settings-group">
+                        <h3>Admin Access</h3>
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <label>Admin Login</label>
+                                <p>Unlock admin features</p>
+                            </div>
+                            <div style="display: flex; gap: 10px;">
+                                <input type="email" id="setting-admin-email" class="form-input" placeholder="Admin email...">
+                                <button class="btn btn-primary" onclick="verifyAdmin()">Login</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-group danger admin-only" style="display: none;">
                         <h3>Data Management</h3>
                         <div class="setting-item">
                             <div class="setting-info">
@@ -535,6 +550,81 @@
     <script src="suku-training-massive-8.js"></script>
     <script src="suku-training-massive-9.js"></script>
     <script src="suku-training-massive-10.js"></script>
+    <script src="suku-training-massive-11.js"></script>
+    <script src="suku-training-massive-12.js"></script>
+    <script src="suku-training-massive-13.js"></script>
+    <script src="suku-training-massive-14.js"></script>
+    <script src="suku-training-massive-15.js"></script>
+    <script src="suku-training-massive-16.js"></script>
+    <script src="suku-training-massive-17.js"></script>
+    <script src="suku-training-massive-18.js"></script>
+    <script src="suku-training-massive-19.js"></script>
+    <script src="suku-training-massive-20.js"></script>
+    <script src="suku-training-massive-21.js"></script>
+    <script src="suku-training-massive-22.js"></script>
+    <script src="suku-training-massive-23.js"></script>
+    <script src="suku-training-massive-24.js"></script>
+    <script src="suku-training-massive-25.js"></script>
+    <script src="suku-training-massive-26.js"></script>
+    <script src="suku-training-massive-27.js"></script>
+    <script src="suku-training-massive-28.js"></script>
+    <script src="suku-training-massive-29.js"></script>
+    <script src="suku-training-massive-30.js"></script>
+    <script src="suku-training-massive-31.js"></script>
+    <script src="suku-training-massive-32.js"></script>
+    <script src="suku-training-massive-33.js"></script>
+    <script src="suku-training-massive-34.js"></script>
+    <script src="suku-training-massive-35.js"></script>
+    <script src="suku-training-massive-36.js"></script>
+    <script src="suku-training-massive-37.js"></script>
+    <script src="suku-training-massive-38.js"></script>
+    <script src="suku-training-massive-39.js"></script>
+    <script src="suku-training-massive-40.js"></script>
+    <script src="suku-training-massive-41.js"></script>
+    <script src="suku-training-massive-42.js"></script>
+    <script src="suku-training-massive-43.js"></script>
+    <script src="suku-training-massive-44.js"></script>
+    <script src="suku-training-massive-45.js"></script>
+    <script src="suku-training-massive-46.js"></script>
+    <script src="suku-training-massive-47.js"></script>
+    <script src="suku-training-massive-48.js"></script>
+    <script src="suku-training-massive-49.js"></script>
+    <script src="suku-training-massive-50.js"></script>
+    <script src="suku-training-massive-51.js"></script>
+    <script src="suku-training-massive-52.js"></script>
+    <script src="suku-training-massive-53.js"></script>
+    <script src="suku-training-massive-54.js"></script>
+    <script src="suku-training-massive-55.js"></script>
+    <script src="suku-training-massive-56.js"></script>
+    <script src="suku-training-massive-57.js"></script>
+    <script src="suku-training-massive-58.js"></script>
+    <script src="suku-training-massive-59.js"></script>
+    <script src="suku-training-massive-60.js"></script>
+    <script src="suku-training-massive-61.js"></script>
+    <script src="suku-training-massive-62.js"></script>
+    <script src="suku-training-massive-63.js"></script>
+    <script src="suku-training-massive-64.js"></script>
+    <script src="suku-training-massive-65.js"></script>
+    <script src="suku-training-massive-66.js"></script>
+    <script src="suku-training-massive-67.js"></script>
+    <script src="suku-training-massive-68.js"></script>
+    <script src="suku-training-massive-69.js"></script>
+    <script src="suku-training-massive-70.js"></script>
+    <script src="suku-training-massive-71.js"></script>
+    <script src="suku-training-massive-72.js"></script>
+    <script src="suku-training-massive-73.js"></script>
+    <script src="suku-training-massive-74.js"></script>
+    <script src="suku-training-massive-75.js"></script>
+    <script src="suku-training-massive-76.js"></script>
+    <script src="suku-training-massive-77.js"></script>
+    <script src="suku-training-massive-78.js"></script>
+    <script src="suku-training-massive-79.js"></script>
+    <script src="suku-training-massive-80.js"></script>
+    <script src="suku-training-massive-81.js"></script>
+    <script src="suku-training-massive-82.js"></script>
+    <script src="suku-training-massive-83.js"></script>
+    <script src="suku-training-massive-84.js"></script>
+    <script src="suku-training-massive-85.js"></script>
     <script src="suku-ai.js"></script>
     <script src="app.js"></script>
 </body>

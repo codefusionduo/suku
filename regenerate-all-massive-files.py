@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Regenerate all massive training datasets (Parts 2 to 7) using combinatorial sentence generation to ensure every entry is unique."""
+"""Regenerate all massive training datasets (Parts 2 to 12) using combinatorial sentence generation to ensure every entry is unique."""
 
 import json
 import sys
@@ -84,15 +84,13 @@ joke_results = [
 ]
 
 def get_unique_entry(topic_num):
-    # Determine category
     cat_type = topic_num % 3
     
     if cat_type == 0:
-        # General Discussion
-        sub = subjects[(topic_num) % len(subjects)]
-        act = actions[(topic_num // len(subjects)) % len(actions)]
-        obj = objects[(topic_num // (len(subjects) * len(actions))) % len(objects)]
-        reas = reasons[(topic_num // (len(subjects) * len(actions) * len(objects))) % len(reasons)]
+        sub = subjects[(topic_num * 17) % len(subjects)]
+        act = actions[(topic_num * 31) % len(actions)]
+        obj = objects[(topic_num * 67) % len(objects)]
+        reas = reasons[(topic_num * 109) % len(reasons)]
         
         pattern1 = f"let's talk about how {sub.lower()} {act} {obj}"
         pattern2 = f"explain details on {sub.lower()} {act} {obj}"
@@ -108,13 +106,11 @@ def get_unique_entry(topic_num):
         }
         
     elif cat_type == 1:
-        # Knowledge Fact
-        # Offset to get different combinations than category 0
         offset_num = topic_num + 5000000
-        sub = subjects[(offset_num) % len(subjects)]
-        act = actions[(offset_num // len(subjects)) % len(actions)]
-        obj = objects[(offset_num // (len(subjects) * len(actions))) % len(objects)]
-        reas = reasons[(offset_num // (len(subjects) * len(actions) * len(objects))) % len(reasons)]
+        sub = subjects[(offset_num * 23) % len(subjects)]
+        act = actions[(offset_num * 47) % len(actions)]
+        obj = objects[(offset_num * 73) % len(objects)]
+        reas = reasons[(offset_num * 127) % len(reasons)]
         
         pattern1 = f"tell me a fact about {sub.lower()}"
         pattern2 = f"give me trivia {topic_num}"
@@ -130,10 +126,9 @@ def get_unique_entry(topic_num):
         }
         
     else:
-        # Humor / Jokes
-        prof = professions[(topic_num) % len(professions)]
-        subj = joke_subjects[(topic_num // len(professions)) % len(joke_subjects)]
-        res = joke_results[(topic_num // (len(professions) * len(joke_subjects))) % len(joke_results)]
+        prof = professions[(topic_num * 19) % len(professions)]
+        subj = joke_subjects[(topic_num * 53) % len(joke_subjects)]
+        res = joke_results[(topic_num * 97) % len(joke_results)]
         
         pattern1 = f"tell me a joke about {prof}s"
         pattern2 = f"joke variation {topic_num}"
@@ -149,90 +144,77 @@ def get_unique_entry(topic_num):
         }
 
 def generate_part(part_num, start_idx, count):
-    print(f"Generating Part {part_num} (topics {start_idx} to {start_idx + count - 1})...")
-    
-    lines = []
-    lines.append("/**")
-    lines.append(f" * Suku AI — Extended Training Data Part {part_num}")
-    lines.append(" * Programmatically generated completely unique, combinatorial training patterns.")
-    lines.append(" */")
-    lines.append("")
-    lines.append("(function() {")
-    lines.append("    'use strict';")
-    lines.append("")
-    lines.append("    // Wait for KnowledgeBase to be available")
-    lines.append(f"    function loadExtendedData{part_num}() {{")
-    lines.append(f"        if (typeof window.KnowledgeBase === 'undefined') {{")
-    lines.append(f"            setTimeout(loadExtendedData{part_num}, 100);")
-    lines.append("            return;")
-    lines.append("        }")
-    lines.append("")
-    lines.append(f"        console.log('Loading extended training data part {part_num}...');")
-    lines.append("        const startTime = performance.now();")
-    lines.append("")
-    lines.append("        const kb = new KnowledgeBase();")
-    lines.append("")
-    lines.append("        const extendedData = [")
-    
-    for i in range(count):
-        topic_num = start_idx + i
-        entry = get_unique_entry(topic_num)
-        comma = "," if i < count - 1 else ""
-        
-        lines.append("            {")
-        lines.append(f"                category: {json.dumps(entry['category'])},")
-        pats = ", ".join(json.dumps(p) for p in entry['patterns'])
-        lines.append(f"                patterns: [{pats}],")
-        lines.append("                responses: [")
-        for j, resp in enumerate(entry['responses']):
-            rcomma = "," if j < len(entry['responses']) - 1 else ""
-            lines.append(f"                    {json.dumps(resp)}{rcomma}")
-        lines.append("                ]")
-        lines.append(f"            }}{comma}")
-        
-    lines.append("        ];")
-    lines.append("")
-    lines.append("        let added = 0;")
-    lines.append("        const origAdd = kb.add.bind(kb);")
-    lines.append("        kb.add = function(entry) {")
-    lines.append(f"            const id = 'kb_{part_num}_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6);")
-    lines.append("            const newEntry = {")
-    lines.append("                id,")
-    lines.append("                category: entry.category || 'general',")
-    lines.append("                patterns: entry.patterns || [],")
-    lines.append("                responses: entry.responses || [],")
-    lines.append("                matchCount: 0,")
-    lines.append("                createdAt: Date.now(),")
-    lines.append("                lastMatched: null,")
-    lines.append("                isUserTrained: false")
-    lines.append("            };")
-    lines.append("            this.data.push(newEntry);")
-    lines.append("            this.stats.trainingSessions++;")
-    lines.append("            return newEntry;")
-    lines.append("        };")
-    lines.append("        for (const entry of extendedData) {")
-    lines.append("            kb.add(entry);")
-    lines.append("            added++;")
-    lines.append("        }")
-    lines.append("        kb.add = origAdd.bind(kb);")
-    lines.append("")
-    lines.append("        const elapsed = (performance.now() - startTime).toFixed(1);")
-    lines.append(f"        console.log(`\u2705 Extended training data part {part_num} loaded: ${{added}} entries in ${{elapsed}}ms`);")
-    lines.append("    }")
-    lines.append("")
-    lines.append("    if (document.readyState === 'loading') {")
-    lines.append(f"        document.addEventListener('DOMContentLoaded', loadExtendedData{part_num});")
-    lines.append("    } else {")
-    lines.append(f"        loadExtendedData{part_num}();")
-    lines.append("    }")
-    lines.append("})();")
-    
-    output = "\n".join(lines) + "\n"
     filename = f"suku-training-massive-{part_num}.js"
-    print(f"Writing {filename} to disk...")
+    print(f"Generating Part {part_num} (topics {start_idx} to {start_idx + count - 1}) -> {filename}...")
+    
     with open(filename, "w", encoding="utf-8") as f:
-        f.write(output)
-    print(f"Generated part {part_num} successfully! Lines: {len(lines)}")
+        f.write("/**\n")
+        f.write(f" * Suku AI — Extended Training Data Part {part_num}\n")
+        f.write(" * Programmatically generated completely unique, combinatorial training patterns.\n")
+        f.write(" */\n\n")
+        f.write("(function() {\n")
+        f.write("    'use strict';\n\n")
+        f.write(f"    function loadExtendedData{part_num}() {{\n")
+        f.write(f"        if (typeof window.KnowledgeBase === 'undefined') {{\n")
+        f.write(f"            setTimeout(loadExtendedData{part_num}, 100);\n")
+        f.write("            return;\n")
+        f.write("        }\n\n")
+        f.write(f"        console.log('Loading extended training data part {part_num}...');\n")
+        f.write("        const startTime = performance.now();\n")
+        f.write("        const kb = new KnowledgeBase();\n")
+        f.write("        const extendedData = [\n")
+        
+        for i in range(count):
+            topic_num = start_idx + i
+            entry = get_unique_entry(topic_num)
+            comma = "," if i < count - 1 else ""
+            
+            f.write("            {\n")
+            f.write(f"                category: {json.dumps(entry['category'])},\n")
+            pats = ", ".join(json.dumps(p) for p in entry['patterns'])
+            f.write(f"                patterns: [{pats}],\n")
+            f.write("                responses: [\n")
+            for j, resp in enumerate(entry['responses']):
+                rcomma = "," if j < len(entry['responses']) - 1 else ""
+                f.write(f"                    {json.dumps(resp)}{rcomma}\n")
+            f.write("                ]\n")
+            f.write(f"            }}{comma}\n")
+            
+        f.write("        ];\n\n")
+        f.write("        let added = 0;\n")
+        f.write("        const origAdd = kb.add.bind(kb);\n")
+        f.write("        kb.add = function(entry) {\n")
+        f.write(f"            const id = 'kb_{part_num}_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6);\n")
+        f.write("            const newEntry = {\n")
+        f.write("                id,\n")
+        f.write("                category: entry.category || 'general',\n")
+        f.write("                patterns: entry.patterns || [],\n")
+        f.write("                responses: entry.responses || [],\n")
+        f.write("                matchCount: 0,\n")
+        f.write("                createdAt: Date.now(),\n")
+        f.write("                lastMatched: null,\n")
+        f.write("                isUserTrained: false\n")
+        f.write("            };\n")
+        f.write("            this.data.push(newEntry);\n")
+        f.write("            this.stats.trainingSessions++;\n")
+        f.write("            return newEntry;\n")
+        f.write("        };\n")
+        f.write("        for (const entry of extendedData) {\n")
+        f.write("            kb.add(entry);\n")
+        f.write("            added++;\n")
+        f.write("        }\n")
+        f.write("        kb.add = origAdd.bind(kb);\n\n")
+        f.write("        const elapsed = (performance.now() - startTime).toFixed(1);\n")
+        f.write(f"        console.log(`\u2705 Extended training data part {part_num} loaded: ${{added}} entries in ${{elapsed}}ms`);\n")
+        f.write("    }\n\n")
+        f.write("    if (document.readyState === 'loading') {\n")
+        f.write(f"        document.addEventListener('DOMContentLoaded', loadExtendedData{part_num});\n")
+        f.write("    } else {\n")
+        f.write(f"        loadExtendedData{part_num}();\n")
+        f.write("    }\n")
+        f.write("})();\n")
+        
+    print(f"Generated part {part_num} successfully!")
 
 if __name__ == "__main__":
     if len(sys.argv) < 4:
