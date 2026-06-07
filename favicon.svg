@@ -1,7 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 120">
-  <circle cx="50" cy="50" r="40" fill="#5A8DEF" />
-  <rect x="30" y="35" width="40" height="4" fill="white" />
-  <rect x="25" y="48" width="50" height="4" fill="white" />
-  <rect x="30" y="61" width="40" height="4" fill="white" />
-  <text x="50" y="110" font-family="Arial, sans-serif" font-weight="900" font-size="28" fill="#222" text-anchor="middle">SUKU</text>
+<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="20" cy="20" r="18" stroke="url(#logoGrad)" stroke-width="2.5"/>
+    <path d="M14 20C14 16.6863 16.6863 14 20 14C23.3137 14 26 16.6863 26 20" stroke="url(#logoGrad)" stroke-width="2.5" stroke-linecap="round"/>
+    <circle cx="20" cy="24" r="3" fill="url(#logoGrad)"/>
+    <defs>
+        <linearGradient id="logoGrad" x1="2" y1="2" x2="38" y2="38">
+            <stop stop-color="#a78bfa"/>
+            <stop offset="1" stop-color="#06b6d4"/>
+        </linearGradient>
+    </defs>
 </svg>

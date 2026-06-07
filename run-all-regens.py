@@ -2,7 +2,7 @@
 import subprocess
 
 parts = [
-    (85, 105000085, 1250001)
+    (101, 125000101, 1250001)
 ]
 
 for part_num, start_idx, count in parts:
