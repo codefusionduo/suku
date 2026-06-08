@@ -42,6 +42,33 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('🧠 Suku AI initialized! Ready to chat.');
 });
 
+// ===== GOOGLE SIGN IN =====
+function handleGoogleSignIn(response) {
+    console.log('Google Sign-In response received', response);
+    // Usually you'd decode the JWT token from response.credential to get user info.
+    // Since this is a client-side app, we'll just mock a successful login for now,
+    // or trigger admin features.
+    
+    // Example: parse the base64url encoded JWT payload
+    try {
+        const payload = JSON.parse(atob(response.credential.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')));
+        console.log(`Signed in as: ${payload.name} (${payload.email})`);
+        showToast(`Welcome, ${payload.name}!`, 'success');
+        
+        // Grant admin features on sign in
+        sessionStorage.setItem('suku_admin', 'true');
+        showAdminFeatures();
+        
+        // Optionally hide the sign in button if you want
+        const googleBtn = document.querySelector('.g_id_signin');
+        if (googleBtn) googleBtn.style.display = 'none';
+        
+    } catch (e) {
+        console.error('Error parsing Google credentials', e);
+        showToast('Google Sign-In successful, but could not parse info.', 'success');
+    }
+}
+
 // ===== VIEW SWITCHING =====
 function switchView(view) {
     // Remove active from all views and nav items
@@ -131,10 +158,44 @@ function addMessage(type, text, confidence = null, processingTime = null) {
 
     const avatar = type === 'ai' ? 'S' : '👤';
     
-    // Convert markdown-like bold to actual bold
-    let formattedText = text
-        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-        .replace(/\n/g, '<br>');
+    // Parse code blocks
+    let formattedText = text;
+    
+    formattedText = formattedText.replace(/```([\w]*)\n([\s\S]*?)```/g, (match, lang, code) => {
+        const language = lang || 'Code';
+        const displayLang = language.toUpperCase();
+        const safeCode = escapeHtml(code.trim());
+        
+        return `
+        <div class="code-block-container">
+            <div class="code-block-header">
+                <div class="code-block-lang">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+                    <span>${displayLang}</span>
+                </div>
+                <div class="code-block-actions">
+                    <button class="code-action-btn" title="Copy code" onclick="navigator.clipboard.writeText(this.parentElement.parentElement.nextElementSibling.innerText); showToast('Code copied!', 'success');">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    </button>
+                    <button class="code-action-btn" title="Edit">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                    </button>
+                    <button class="code-action-btn" title="Run">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                    </button>
+                </div>
+            </div>
+            <pre class="code-block-content"><code class="language-${language}">${safeCode}</code></pre>
+        </div>`;
+    });
+
+    formattedText = formattedText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+        
+    const parts = formattedText.split(/(<div class="code-block-container">[\s\S]*?<\/div>)/);
+    formattedText = parts.map((part, index) => {
+        if (index % 2 === 0) return part.replace(/\n/g, '<br>');
+        return part;
+    }).join('');
 
     let metaHtml = `<span class="message-time">${timeStr}</span>`;
     
@@ -242,9 +303,40 @@ function loadChatHistory() {
                     const timeStr = new Date(msg.time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
                     const avatar = msg.type === 'ai' ? 'S' : '👤';
                     
-                    let formattedText = msg.text
-                        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                        .replace(/\n/g, '<br>');
+                    let formattedText = msg.text;
+                    formattedText = formattedText.replace(/```([\w]*)\n([\s\S]*?)```/g, (match, lang, code) => {
+                        const language = lang || 'Code';
+                        const displayLang = language.toUpperCase();
+                        const safeCode = escapeHtml(code.trim());
+                        return `
+                        <div class="code-block-container">
+                            <div class="code-block-header">
+                                <div class="code-block-lang">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+                                    <span>${displayLang}</span>
+                                </div>
+                                <div class="code-block-actions">
+                                    <button class="code-action-btn" title="Copy code" onclick="navigator.clipboard.writeText(this.parentElement.parentElement.nextElementSibling.innerText); showToast('Code copied!', 'success');">
+                                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                                    </button>
+                                    <button class="code-action-btn" title="Edit">
+                                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                                    </button>
+                                    <button class="code-action-btn" title="Run">
+                                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                                    </button>
+                                </div>
+                            </div>
+                            <pre class="code-block-content"><code class="language-${language}">${safeCode}</code></pre>
+                        </div>`;
+                    });
+                    
+                    formattedText = formattedText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                    const parts = formattedText.split(/(<div class="code-block-container">[\s\S]*?<\/div>)/);
+                    formattedText = parts.map((part, index) => {
+                        if (index % 2 === 0) return part.replace(/\n/g, '<br>');
+                        return part;
+                    }).join('');
 
                     let metaHtml = `<span class="message-time">${timeStr}</span>`;
                     if (msg.type === 'ai' && msg.confidence) {

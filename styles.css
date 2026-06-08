@@ -1904,3 +1904,64 @@ body {
 *::-webkit-scrollbar-thumb:hover {
     background: rgba(120, 120, 180, 0.3);
 }
+
+/* ===== CODE BLOCKS ===== */
+.code-block-container {
+    margin: 12px 0;
+    border-radius: var(--radius-md);
+    background: #1a1a1a;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+    font-family: var(--font-mono);
+}
+
+.code-block-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 16px;
+    background: #252525;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.code-block-lang {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #e0e0e0;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.code-block-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.code-action-btn {
+    background: transparent;
+    border: none;
+    color: #a0a0a0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+    border-radius: 4px;
+    transition: all 0.2s;
+}
+
+.code-action-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+
+.code-block-content {
+    padding: 16px;
+    overflow-x: auto;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: #f8f8f2;
+    margin: 0;
+}
+
