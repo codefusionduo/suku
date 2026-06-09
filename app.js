@@ -45,21 +45,23 @@ document.addEventListener('DOMContentLoaded', () => {
 // ===== GOOGLE SIGN IN =====
 function handleGoogleSignIn(response) {
     console.log('Google Sign-In response received', response);
-    // Usually you'd decode the JWT token from response.credential to get user info.
-    // Since this is a client-side app, we'll just mock a successful login for now,
-    // or trigger admin features.
     
-    // Example: parse the base64url encoded JWT payload
     try {
         const payload = JSON.parse(atob(response.credential.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')));
         console.log(`Signed in as: ${payload.name} (${payload.email})`);
-        showToast(`Welcome, ${payload.name}!`, 'success');
         
-        // Grant admin features on sign in
-        sessionStorage.setItem('suku_admin', 'true');
-        showAdminFeatures();
+        if (payload.email === 'codefusionduo@gmail.com') {
+            showToast(`Welcome Admin, ${payload.name}!`, 'success');
+            sessionStorage.setItem('suku_admin', 'true');
+            showAdminFeatures();
+        } else {
+            showToast(`Welcome, ${payload.name}!`, 'success');
+            sessionStorage.removeItem('suku_admin');
+            document.querySelectorAll('.admin-only').forEach(el => {
+                el.style.display = 'none';
+            });
+        }
         
-        // Optionally hide the sign in button if you want
         const googleBtn = document.querySelector('.g_id_signin');
         if (googleBtn) googleBtn.style.display = 'none';
         
