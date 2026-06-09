@@ -79,77 +79,24 @@ def get_math_entry(topic_num):
         }
 
 def generate_part(part_num, start_idx, count):
-    filename = f"suku-training-massive-{part_num}.js"
-    print(f"Generating Math Tables Part {part_num} (topics {start_idx} to {start_idx + count - 1}) -> {filename}...")
+    filename = f"suku-training-massive-{part_num}.jsonl"
+    print(f"Generating Part {part_num} (topics {start_idx} to {start_idx + count - 1}) -> {filename}...")
     
     with open(filename, "w", encoding="utf-8") as f:
-        f.write("/**\n")
-        f.write(f" * Suku AI — Extended Math Tables Training Data Part {part_num}\n")
-        f.write(" * Programmatically generated multiplication, square root, and cube root training patterns.\n")
-        f.write(" */\n\n")
-        f.write("(function() {\n")
-        f.write("    'use strict';\n\n")
-        f.write(f"    function loadExtendedData{part_num}() {{\n")
-        f.write(f"        if (typeof window.KnowledgeBase === 'undefined') {{\n")
-        f.write(f"            setTimeout(loadExtendedData{part_num}, 100);\n")
-        f.write("            return;\n")
-        f.write("        }\n\n")
-        f.write(f"        console.log('Loading extended math tables training data part {part_num}...');\n")
-        f.write("        const startTime = performance.now();\n")
-        f.write("        const kb = new KnowledgeBase();\n")
-        f.write("        const extendedData = [\n")
-        
         for i in range(count):
             topic_num = start_idx + i
             entry = get_math_entry(topic_num)
-            comma = "," if i < count - 1 else ""
-            
-            f.write("            {\n")
-            f.write(f"                category: {json.dumps(entry['category'])},\n")
-            pats = ", ".join(json.dumps(p) for p in entry['patterns'])
-            f.write(f"                patterns: [{pats}],\n")
-            f.write("                responses: [\n")
-            for j, resp in enumerate(entry['responses']):
-                rcomma = "," if j < len(entry['responses']) - 1 else ""
-                f.write(f"                    {json.dumps(resp)}{rcomma}\n")
-            f.write("                ]\n")
-            f.write(f"            }}{comma}\n")
-            
-        f.write("        ];\n\n")
-        f.write("        let added = 0;\n")
-        f.write("        const origAdd = kb.add.bind(kb);\n")
-        f.write("        kb.add = function(entry) {\n")
-        f.write(f"            const id = 'kb_{part_num}_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6);\n")
-        f.write("            const newEntry = {\n")
-        f.write("                id,\n")
-        f.write("                category: entry.category || 'general',\n")
-        f.write("                patterns: entry.patterns || [],\n")
-        f.write("                responses: entry.responses || [],\n")
-        f.write("                matchCount: 0,\n")
-        f.write("                createdAt: Date.now(),\n")
-        f.write("                lastMatched: null,\n")
-        f.write("                isUserTrained: false\n")
-        f.write("            };\n")
-        f.write("            this.data.push(newEntry);\n")
-        f.write("            this.stats.trainingSessions++;\n")
-        f.write("            return newEntry;\n")
-        f.write("        };\n")
-        f.write("        for (const entry of extendedData) {\n")
-        f.write("            kb.add(entry);\n")
-        f.write("            added++;\n")
-        f.write("        }\n")
-        f.write("        kb.add = origAdd.bind(kb);\n\n")
-        f.write("        const elapsed = (performance.now() - startTime).toFixed(1);\n")
-        f.write(f"        console.log(`✅ Extended math tables training data part {part_num} loaded: ${{added}} entries in ${{elapsed}}ms`);\n")
-        f.write("    }\n\n")
-        f.write("    if (document.readyState === 'loading') {\n")
-        f.write(f"        document.addEventListener('DOMContentLoaded', loadExtendedData{part_num});\n")
-        f.write("    } else {\n")
-        f.write(f"        loadExtendedData{part_num}();\n")
-        f.write("    }\n")
-        f.write("})();\n")
-        
+            for pattern in entry['patterns']:
+                for response in entry['responses']:
+                    obj = {
+                        "messages": [
+                            {"role": "user", "content": pattern},
+                            {"role": "assistant", "content": response}
+                        ]
+                    }
+                    f.write(json.dumps(obj, ensure_ascii=False) + "\n")
     print(f"Generated part {part_num} successfully!")
+
 
 if __name__ == "__main__":
     if len(sys.argv) < 4:

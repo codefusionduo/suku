@@ -922,105 +922,17 @@ for topic_num in range(1, 416667): # Increased to reach ~10,000,000 total lines
 
 
 
-# Output the file
-lines = []
-lines.append("/**")
-lines.append(" * Suku AI — Extended Training Data")
-lines.append(" * Comprehensive knowledge base covering science, technology, history,")
-lines.append(" * geography, art, music, sports, nature, food, philosophy, and more.")
-lines.append(" * Auto-generated with high-quality, diverse training patterns.")
-lines.append(" */")
-lines.append("")
-lines.append("(function() {")
-lines.append("    'use strict';")
-lines.append("")
-lines.append("    const EXTENDED_DATA_VERSION = 'v3.0';")
-lines.append("    const STORAGE_FLAG = 'suku_extended_data_loaded';")
-lines.append("")
-lines.append("    // Check if extended data was already loaded")
-lines.append("    if (localStorage.getItem(STORAGE_FLAG) === EXTENDED_DATA_VERSION) {")
-lines.append("        console.log('Extended training data already loaded (version ' + EXTENDED_DATA_VERSION + ')');")
-lines.append("        return;")
-lines.append("    }")
-lines.append("")
-lines.append("    // Wait for KnowledgeBase to be available")
-lines.append("    function loadExtendedData() {")
-lines.append("        if (typeof window.KnowledgeBase === 'undefined') {")
-lines.append("            setTimeout(loadExtendedData, 100);")
-lines.append("            return;")
-lines.append("        }")
-lines.append("")
-lines.append("        console.log('Loading extended training data...');")
-lines.append("        const startTime = performance.now();")
-lines.append("")
-lines.append("        // Get existing KB instance or create temporary one for adding")
-lines.append("        const kb = new KnowledgeBase();")
-lines.append("")
-lines.append("        const extendedData = [")
+# Output the file as JSONL
+with open("suku-training-massive.jsonl", "w", encoding="utf-8") as f:
+    for entry in entries:
+        for pattern in entry['patterns']:
+            for response in entry['responses']:
+                obj = {
+                    "messages": [
+                        {"role": "user", "content": pattern},
+                        {"role": "assistant", "content": response}
+                    ]
+                }
+                f.write(json.dumps(obj, ensure_ascii=False) + "\n")
 
-for i, entry in enumerate(entries):
-    comma = "," if i < len(entries) - 1 else ""
-    lines.append("            {")
-    lines.append(f"                category: {json.dumps(entry['category'])},")
-    
-    # Patterns
-    pats = ", ".join(json.dumps(p) for p in entry['patterns'])
-    lines.append(f"                patterns: [{pats}],")
-    
-    # Responses
-    lines.append("                responses: [")
-    for j, resp in enumerate(entry['responses']):
-        rcomma = "," if j < len(entry['responses']) - 1 else ""
-        lines.append(f"                    {json.dumps(resp)}{rcomma}")
-    lines.append("                ]")
-    
-    lines.append(f"            }}{comma}")
-
-lines.append("        ];")
-lines.append("")
-lines.append("        // Add all entries directly to memory to avoid localStorage quota issues and freezing")
-lines.append("        let added = 0;")
-lines.append("        const origAdd = kb.add.bind(kb);")
-lines.append("        kb.add = function(entry) {")
-lines.append("            const id = 'kb_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6);")
-lines.append("            const newEntry = {")
-lines.append("                id,")
-lines.append("                category: entry.category || 'general',")
-lines.append("                patterns: entry.patterns || [],")
-lines.append("                responses: entry.responses || [],")
-lines.append("                matchCount: 0,")
-lines.append("                createdAt: Date.now(),")
-lines.append("                lastMatched: null,")
-lines.append("                isUserTrained: false")
-lines.append("            };")
-lines.append("            this.data.push(newEntry);")
-lines.append("            this.stats.trainingSessions++;")
-lines.append("            return newEntry;")
-lines.append("        };")
-lines.append("        for (const entry of extendedData) {")
-lines.append("            kb.add(entry);")
-lines.append("            added++;")
-lines.append("        }")
-lines.append("        kb.add = origAdd.bind(kb); // restore original add function")
-lines.append("")
-lines.append("        // We don't call kb.save() because 650MB exceeds localStorage limit")
-lines.append("        // We also don't set STORAGE_FLAG so it loads into memory on each refresh")
-lines.append("        const elapsed = (performance.now() - startTime).toFixed(1);")
-lines.append("        console.log(`✅ Extended training data loaded: ${added} entries in ${elapsed}ms`);")
-lines.append("    }")
-lines.append("")
-lines.append("    // Start loading when DOM is ready")
-lines.append("    if (document.readyState === 'loading') {")
-lines.append("        document.addEventListener('DOMContentLoaded', loadExtendedData);")
-lines.append("    } else {")
-lines.append("        loadExtendedData();")
-lines.append("    }")
-lines.append("})();")
-
-output = "\n".join(lines) + "\n"
-
-with open("suku-training-massive.js", "w", encoding="utf-8") as f:
-    f.write(output)
-
-print(f"Generated {len(entries)} entries across {len(lines)} lines")
-print(f"File size: {len(output):,} bytes ({len(output)/1024:.1f} KB)")
+print(f"Generated {len(entries)} entries successfully in JSONL format.")

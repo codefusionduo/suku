@@ -1,5 +1,6 @@
 # Ignore log files
 *.log
-suku-training-massive*.js
-knowledge-base-extended.js
+suku-training-massive*
+knowledge-base-extended*
+*.jsonl
 scratch/
