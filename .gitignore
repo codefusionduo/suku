@@ -1,4 +1,5 @@
 # Ignore log files
 *.log
 suku-training-massive*.js
+knowledge-base-extended.js
 scratch/
