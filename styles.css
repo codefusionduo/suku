@@ -140,6 +140,66 @@ body {
     75% { transform: translate(30px, 20px) scale(1.05); }
 }
 
+/* ===== LOGIN OVERLAY ===== */
+.login-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: var(--bg-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(20px);
+    transition: opacity 0.5s ease;
+}
+
+.login-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.login-modal {
+    background: var(--bg-glass);
+    border: 1px solid var(--border-color);
+    padding: 40px;
+    border-radius: var(--radius-xl);
+    text-align: center;
+    box-shadow: var(--shadow-lg), var(--shadow-glow);
+    max-width: 400px;
+    width: 90%;
+    animation: loginModalPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes loginModalPop {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.login-logo {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 20px;
+}
+
+.login-modal h2 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.login-modal p {
+    color: var(--text-secondary);
+    margin-bottom: 30px;
+    font-size: 0.95rem;
+}
+
+.mock-login-btn:hover {
+    background: var(--bg-card-hover) !important;
+    border-color: var(--accent-violet) !important;
+}
+
 /* ===== APP CONTAINER ===== */
 .app-container {
     position: relative;
@@ -1964,4 +2024,44 @@ body {
     color: #f8f8f2;
     margin: 0;
 }
+
+/* ===== AI IMAGE GENERATOR VIEW ===== */
+.image-gen-content {
+    flex: 1;
+    padding: 24px 28px;
+    overflow-y: auto;
+}
+
+.image-gen-workspace {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    align-items: flex-start;
+}
+
+.image-gen-sidebar-panel {
+    flex: 1;
+    min-width: 300px;
+    max-width: 400px;
+    background: var(--gradient-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-xl);
+    padding: 24px;
+    backdrop-filter: blur(10px);
+}
+
+.image-gen-preview-panel {
+    flex: 2;
+    min-width: 320px;
+    background: var(--gradient-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-xl);
+    padding: 24px;
+    backdrop-filter: blur(10px);
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
 

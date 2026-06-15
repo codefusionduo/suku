@@ -38,11 +38,17 @@ class KnowledgeBase {
      * Save knowledge base to localStorage
      */
     save() {
-        try {
-            localStorage.setItem(this.storageKey, JSON.stringify(this.data));
-        } catch (e) {
-            console.error('Failed to save knowledge base:', e);
+        if (this.saveTimeout) {
+            clearTimeout(this.saveTimeout);
         }
+        this.saveTimeout = setTimeout(() => {
+            try {
+                const userOnlyData = this.data.filter(e => e.isUserTrained);
+                localStorage.setItem(this.storageKey, JSON.stringify(userOnlyData));
+            } catch (e) {
+                console.error('Failed to save knowledge base:', e);
+            }
+        }, 100);
     }
 
     /**
@@ -75,11 +81,16 @@ class KnowledgeBase {
      * Save stats
      */
     saveStats() {
-        try {
-            localStorage.setItem(this.statsKey, JSON.stringify(this.stats));
-        } catch (e) {
-            console.error('Failed to save stats:', e);
+        if (this.saveStatsTimeout) {
+            clearTimeout(this.saveStatsTimeout);
         }
+        this.saveStatsTimeout = setTimeout(() => {
+            try {
+                localStorage.setItem(this.statsKey, JSON.stringify(this.stats));
+            } catch (e) {
+                console.error('Failed to save stats:', e);
+            }
+        }, 100);
     }
 
     /**
@@ -162,7 +173,27 @@ class KnowledgeBase {
      * Add a new knowledge entry
      */
     add(entry) {
+        // Prevent duplication of entries with the exact same patterns
+        if (entry.patterns && entry.patterns.length > 0) {
+            const exists = this.data.some(e => 
+                e.patterns.length === entry.patterns.length && 
+                e.patterns.every((p, idx) => p === entry.patterns[idx])
+            );
+            if (exists) {
+                return this.data.find(e => 
+                    e.patterns.length === entry.patterns.length && 
+                    e.patterns.every((p, idx) => p === entry.patterns[idx])
+                );
+            }
+        }
+
         const id = `kb_${Date.now()}_${Math.random().toString(36).substr(2, 6)}`;
+        
+        // Detect if it is a built-in bulk pattern to avoid saving to localStorage
+        const isBulk = entry.patterns && entry.patterns.some(p => 
+            p.includes(' (v') || p.includes(' (id:') || /\(\d+\)/.test(p)
+        );
+
         const newEntry = {
             id,
             category: entry.category || 'general',
@@ -171,13 +202,16 @@ class KnowledgeBase {
             matchCount: 0,
             createdAt: Date.now(),
             lastMatched: null,
-            isUserTrained: entry.isUserTrained !== false
+            isUserTrained: isBulk ? false : (entry.isUserTrained !== false)
         };
         
         this.data.push(newEntry);
         this.stats.trainingSessions++;
-        this.save();
-        this.saveStats();
+        
+        if (newEntry.isUserTrained) {
+            this.save();
+            this.saveStats();
+        }
         
         return newEntry;
     }

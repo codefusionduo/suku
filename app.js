@@ -34,6 +34,11 @@ document.addEventListener('DOMContentLoaded', () => {
     renderAnalytics();
     renderKnowledgeBase();
 
+    // Auto-login if running locally (localhost)
+    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.protocol === 'file:') {
+        sessionStorage.setItem('suku_admin', 'true');
+    }
+
     // Check if admin is logged in
     if (sessionStorage.getItem('suku_admin') === 'true') {
         showAdminFeatures();
@@ -42,34 +47,6 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('🧠 Suku AI initialized! Ready to chat.');
 });
 
-// ===== GOOGLE SIGN IN =====
-function handleGoogleSignIn(response) {
-    console.log('Google Sign-In response received', response);
-    
-    try {
-        const payload = JSON.parse(atob(response.credential.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')));
-        console.log(`Signed in as: ${payload.name} (${payload.email})`);
-        
-        if (payload.email === 'codefusionduo@gmail.com') {
-            showToast(`Welcome Admin, ${payload.name}!`, 'success');
-            sessionStorage.setItem('suku_admin', 'true');
-            showAdminFeatures();
-        } else {
-            showToast(`Welcome, ${payload.name}!`, 'success');
-            sessionStorage.removeItem('suku_admin');
-            document.querySelectorAll('.admin-only').forEach(el => {
-                el.style.display = 'none';
-            });
-        }
-        
-        const googleBtn = document.querySelector('.g_id_signin');
-        if (googleBtn) googleBtn.style.display = 'none';
-        
-    } catch (e) {
-        console.error('Error parsing Google credentials', e);
-        showToast('Google Sign-In successful, but could not parse info.', 'success');
-    }
-}
 
 // ===== VIEW SWITCHING =====
 function switchView(view) {

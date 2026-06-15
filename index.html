@@ -1,18 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Suku AI — Intelligent Conversational Assistant</title>
-    <meta name="description" content="Suku AI is a trainable, client-side artificial intelligence chatbot that learns and adapts through conversation.">
+    <meta name="description"
+        content="Suku AI is a trainable, client-side artificial intelligence chatbot that learns and adapts through conversation.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
+
 </head>
+
 <body>
+
+
     <!-- Animated Background -->
     <div class="bg-animation">
         <div class="orb orb-1"></div>
@@ -29,13 +36,14 @@
                 <div class="logo-container">
                     <div class="logo-icon">
                         <svg viewBox="0 0 40 40" fill="none">
-                            <circle cx="20" cy="20" r="18" stroke="url(#logoGrad)" stroke-width="2.5"/>
-                            <path d="M14 20C14 16.6863 16.6863 14 20 14C23.3137 14 26 16.6863 26 20" stroke="url(#logoGrad)" stroke-width="2.5" stroke-linecap="round"/>
-                            <circle cx="20" cy="24" r="3" fill="url(#logoGrad)"/>
+                            <circle cx="20" cy="20" r="18" stroke="url(#logoGrad)" stroke-width="2.5" />
+                            <path d="M14 20C14 16.6863 16.6863 14 20 14C23.3137 14 26 16.6863 26 20"
+                                stroke="url(#logoGrad)" stroke-width="2.5" stroke-linecap="round" />
+                            <circle cx="20" cy="24" r="3" fill="url(#logoGrad)" />
                             <defs>
                                 <linearGradient id="logoGrad" x1="2" y1="2" x2="38" y2="38">
-                                    <stop stop-color="#a78bfa"/>
-                                    <stop offset="1" stop-color="#06b6d4"/>
+                                    <stop stop-color="#a78bfa" />
+                                    <stop offset="1" stop-color="#06b6d4" />
                                 </linearGradient>
                             </defs>
                         </svg>
@@ -49,23 +57,36 @@
 
             <nav class="sidebar-nav">
                 <button id="nav-chat" class="nav-item active" onclick="switchView('chat')">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                    </svg>
                     <span>Chat</span>
                 </button>
-                <button id="nav-train" class="nav-item admin-only" style="display: none;" onclick="switchView('train')">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
-                    <span>Train</span>
+
+                <button id="nav-image-gen" class="nav-item" onclick="switchView('image-gen')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                        <circle cx="8.5" cy="8.5" r="1.5" />
+                        <polyline points="21 15 16 10 5 21" />
+                    </svg>
+                    <span>Image Generator</span>
                 </button>
-                <button id="nav-knowledge" class="nav-item admin-only" style="display: none;" onclick="switchView('knowledge')">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-                    <span>Knowledge</span>
+
+                <button id="nav-video-gen" class="nav-item admin-only" style="display: none;"
+                    onclick="switchView('video-gen')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="23 7 16 12 23 17 23 7" />
+                        <rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
+                    </svg>
+                    <span>Video Generator</span>
                 </button>
-                <button id="nav-analytics" class="nav-item admin-only" style="display: none;" onclick="switchView('analytics')">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
-                    <span>Analytics</span>
-                </button>
+
                 <button id="nav-settings" class="nav-item" onclick="switchView('settings')">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="3" />
+                        <path
+                            d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+                    </svg>
                     <span>Settings</span>
                 </button>
             </nav>
@@ -79,10 +100,7 @@
                     </div>
                 </div>
                 <div class="stats-mini">
-                    <div class="stat-mini">
-                        <span class="stat-mini-value" id="stat-patterns">0</span>
-                        <span class="stat-mini-label">Patterns</span>
-                    </div>
+
                     <div class="stat-mini">
                         <span class="stat-mini-value" id="stat-convos">0</span>
                         <span class="stat-mini-label">Chats</span>
@@ -97,7 +115,11 @@
             <section id="view-chat" class="view active">
                 <div class="chat-header">
                     <button class="mobile-menu-btn" onclick="toggleSidebar()">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="3" y1="12" x2="21" y2="12" />
+                            <line x1="3" y1="6" x2="21" y2="6" />
+                            <line x1="3" y1="18" x2="21" y2="18" />
+                        </svg>
                     </button>
                     <div class="chat-header-info">
                         <div class="chat-avatar">
@@ -113,27 +135,20 @@
                         </div>
                     </div>
                     <div class="chat-header-actions" style="display: flex; align-items: center; gap: 8px;">
-                        <div id="g_id_onload"
-                             data-client_id="267193968904-tqkhuvtjccr8qp8pfipkn2jpukjfd0d0.apps.googleusercontent.com"
-                             data-context="signin"
-                             data-ux_mode="popup"
-                             data-callback="handleGoogleSignIn"
-                             data-auto_prompt="false">
-                        </div>
-                        <div class="g_id_signin"
-                             data-type="standard"
-                             data-shape="pill"
-                             data-theme="filled_black"
-                             data-text="signin_with"
-                             data-size="medium"
-                             data-logo_alignment="left">
-                        </div>
-                        
+
                         <button id="clear-chat-btn" class="icon-btn" onclick="clearChat()" title="Clear Chat">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="3 6 5 6 21 6" />
+                                <path
+                                    d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                            </svg>
                         </button>
                         <button class="icon-btn" onclick="exportChat()" title="Export Chat">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                                <polyline points="7 10 12 15 17 10" />
+                                <line x1="12" y1="15" x2="12" y2="3" />
+                            </svg>
                         </button>
                     </div>
                 </div>
@@ -143,35 +158,54 @@
                     <div class="welcome-container" id="welcome-screen">
                         <div class="welcome-logo">
                             <svg viewBox="0 0 80 80" fill="none">
-                                <circle cx="40" cy="40" r="36" stroke="url(#wGrad)" stroke-width="3" opacity="0.3"/>
-                                <circle cx="40" cy="40" r="26" stroke="url(#wGrad)" stroke-width="2.5"/>
-                                <path d="M28 40C28 33.3726 33.3726 28 40 28C46.6274 28 52 33.3726 52 40" stroke="url(#wGrad)" stroke-width="2.5" stroke-linecap="round"/>
-                                <circle cx="40" cy="48" r="5" fill="url(#wGrad)"/>
+                                <circle cx="40" cy="40" r="36" stroke="url(#wGrad)" stroke-width="3" opacity="0.3" />
+                                <circle cx="40" cy="40" r="26" stroke="url(#wGrad)" stroke-width="2.5" />
+                                <path d="M28 40C28 33.3726 33.3726 28 40 28C46.6274 28 52 33.3726 52 40"
+                                    stroke="url(#wGrad)" stroke-width="2.5" stroke-linecap="round" />
+                                <circle cx="40" cy="48" r="5" fill="url(#wGrad)" />
                                 <defs>
                                     <linearGradient id="wGrad" x1="4" y1="4" x2="76" y2="76">
-                                        <stop stop-color="#a78bfa"/>
-                                        <stop offset="1" stop-color="#06b6d4"/>
+                                        <stop stop-color="#a78bfa" />
+                                        <stop offset="1" stop-color="#06b6d4" />
                                     </linearGradient>
                                 </defs>
                             </svg>
                         </div>
                         <h2 class="welcome-title">Hello, I'm <span class="gradient-text">Suku AI</span></h2>
-                        <p class="welcome-subtitle">A trainable AI that learns from you. Ask me anything, or teach me something new!</p>
+                        <p class="welcome-subtitle">A trainable AI that learns from you. Ask me anything, or teach me
+                            something new!</p>
                         <div class="quick-prompts">
                             <button class="quick-prompt" onclick="sendQuickPrompt('What can you do?')">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10" />
+                                    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+                                    <line x1="12" y1="17" x2="12.01" y2="17" />
+                                </svg>
                                 What can you do?
                             </button>
                             <button class="quick-prompt" onclick="sendQuickPrompt('Tell me a joke')">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10" />
+                                    <path d="M8 14s1.5 2 4 2 4-2 4-2" />
+                                    <line x1="9" y1="9" x2="9.01" y2="9" />
+                                    <line x1="15" y1="9" x2="15.01" y2="9" />
+                                </svg>
                                 Tell me a joke
                             </button>
                             <button class="quick-prompt" onclick="sendQuickPrompt('How do I train you?')">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                                    <path d="M2 17l10 5 10-5" />
+                                    <path d="M2 12l10 5 10-5" />
+                                </svg>
                                 How do I train you?
                             </button>
                             <button class="quick-prompt" onclick="sendQuickPrompt('What is artificial intelligence?')">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
+                                    <line x1="8" y1="21" x2="16" y2="21" />
+                                    <line x1="12" y1="17" x2="12" y2="21" />
+                                </svg>
                                 What is AI?
                             </button>
                         </div>
@@ -186,9 +220,13 @@
                         <span class="typing-text">Suku is thinking...</span>
                     </div>
                     <div class="chat-input-wrapper">
-                        <textarea id="chat-input" class="chat-input" placeholder="Message Suku AI..." rows="1" onkeydown="handleInputKeydown(event)" oninput="autoResize(this)"></textarea>
+                        <textarea id="chat-input" class="chat-input" placeholder="Message Suku AI..." rows="1"
+                            onkeydown="handleInputKeydown(event)" oninput="autoResize(this)"></textarea>
                         <button id="send-btn" class="send-btn" onclick="sendMessage()" disabled>
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="22" y1="2" x2="11" y2="13" />
+                                <polygon points="22 2 15 22 11 13 2 9 22 2" />
+                            </svg>
                         </button>
                     </div>
                 </div>
@@ -198,7 +236,11 @@
             <section id="view-train" class="view">
                 <div class="view-header">
                     <button class="mobile-menu-btn" onclick="toggleSidebar()">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="3" y1="12" x2="21" y2="12" />
+                            <line x1="3" y1="6" x2="21" y2="6" />
+                            <line x1="3" y1="18" x2="21" y2="18" />
+                        </svg>
                     </button>
                     <div>
                         <h2>Train Suku AI</h2>
@@ -212,12 +254,15 @@
                         <div class="train-card">
                             <div class="train-card-header">
                                 <div class="train-card-icon">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                                    </svg>
                                 </div>
                                 <h3>Single Pattern</h3>
                             </div>
                             <p class="train-card-desc">Add a single question-answer pair</p>
-                            
+
                             <div class="form-group">
                                 <label for="train-category">Category</label>
                                 <select id="train-category" class="form-select">
@@ -233,17 +278,25 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="train-patterns">Trigger Patterns <span class="form-hint">(one per line)</span></label>
-                                <textarea id="train-patterns" class="form-textarea" placeholder="hello&#10;hi there&#10;hey suku" rows="3"></textarea>
+                                <label for="train-patterns">Trigger Patterns <span class="form-hint">(one per
+                                        line)</span></label>
+                                <textarea id="train-patterns" class="form-textarea"
+                                    placeholder="hello&#10;hi there&#10;hey suku" rows="3"></textarea>
                             </div>
 
                             <div class="form-group">
-                                <label for="train-responses">Responses <span class="form-hint">(one per line, picks randomly)</span></label>
-                                <textarea id="train-responses" class="form-textarea" placeholder="Hey! How can I help you?&#10;Hello there! Nice to see you!&#10;Hi! What's on your mind?" rows="3"></textarea>
+                                <label for="train-responses">Responses <span class="form-hint">(one per line, picks
+                                        randomly)</span></label>
+                                <textarea id="train-responses" class="form-textarea"
+                                    placeholder="Hey! How can I help you?&#10;Hello there! Nice to see you!&#10;Hi! What's on your mind?"
+                                    rows="3"></textarea>
                             </div>
 
                             <button class="btn btn-primary" onclick="trainSingle()">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/></svg>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                                    <path d="M2 17l10 5 10-5" />
+                                </svg>
                                 Train Pattern
                             </button>
                         </div>
@@ -252,12 +305,17 @@
                         <div class="train-card">
                             <div class="train-card-header">
                                 <div class="train-card-icon cyan">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                                        <polyline points="14 2 14 8 20 8" />
+                                        <line x1="16" y1="13" x2="8" y2="13" />
+                                        <line x1="16" y1="17" x2="8" y2="17" />
+                                    </svg>
                                 </div>
                                 <h3>Bulk Import</h3>
                             </div>
                             <p class="train-card-desc">Import training data from JSON</p>
-                            
+
                             <div class="form-group">
                                 <label for="train-json">JSON Training Data</label>
                                 <textarea id="train-json" class="form-textarea code-textarea" placeholder='[
@@ -271,11 +329,19 @@
 
                             <div class="btn-group">
                                 <button class="btn btn-primary" onclick="trainBulk()">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                                        <polyline points="17 8 12 3 7 8" />
+                                        <line x1="12" y1="3" x2="12" y2="15" />
+                                    </svg>
                                     Import &amp; Train
                                 </button>
                                 <button class="btn btn-secondary" onclick="exportTrainingData()">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                                        <polyline points="7 10 12 15 17 10" />
+                                        <line x1="12" y1="15" x2="12" y2="3" />
+                                    </svg>
                                     Export Data
                                 </button>
                             </div>
@@ -285,12 +351,15 @@
                         <div class="train-card wide">
                             <div class="train-card-header">
                                 <div class="train-card-icon emerald">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                                    </svg>
                                 </div>
                                 <h3>Teach by Chatting</h3>
                             </div>
-                            <p class="train-card-desc">When Suku doesn't know something, you can teach it right in the chat! Just say "learn that [question] means [answer]" or correct its response.</p>
-                            
+                            <p class="train-card-desc">When Suku doesn't know something, you can teach it right in the
+                                chat! Just say "learn that [question] means [answer]" or correct its response.</p>
+
                             <div class="teach-examples">
                                 <div class="teach-example">
                                     <div class="teach-label">Try saying:</div>
@@ -322,7 +391,11 @@
             <section id="view-knowledge" class="view">
                 <div class="view-header">
                     <button class="mobile-menu-btn" onclick="toggleSidebar()">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="3" y1="12" x2="21" y2="12" />
+                            <line x1="3" y1="6" x2="21" y2="6" />
+                            <line x1="3" y1="18" x2="21" y2="18" />
+                        </svg>
                     </button>
                     <div>
                         <h2>Knowledge Base</h2>
@@ -330,8 +403,12 @@
                     </div>
                     <div class="view-header-actions">
                         <div class="search-box">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-                            <input type="text" id="knowledge-search" placeholder="Search patterns..." oninput="filterKnowledge()">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="11" cy="11" r="8" />
+                                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                            </svg>
+                            <input type="text" id="knowledge-search" placeholder="Search patterns..."
+                                oninput="filterKnowledge()">
                         </div>
                     </div>
                 </div>
@@ -358,7 +435,11 @@
             <section id="view-analytics" class="view">
                 <div class="view-header">
                     <button class="mobile-menu-btn" onclick="toggleSidebar()">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="3" y1="12" x2="21" y2="12" />
+                            <line x1="3" y1="6" x2="21" y2="6" />
+                            <line x1="3" y1="18" x2="21" y2="18" />
+                        </svg>
                     </button>
                     <div>
                         <h2>Analytics</h2>
@@ -370,7 +451,11 @@
                     <div class="stats-grid">
                         <div class="stat-card">
                             <div class="stat-icon violet">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                                    <path d="M2 17l10 5 10-5" />
+                                    <path d="M2 12l10 5 10-5" />
+                                </svg>
                             </div>
                             <div class="stat-info">
                                 <span class="stat-value" id="analytics-patterns">0</span>
@@ -379,7 +464,9 @@
                         </div>
                         <div class="stat-card">
                             <div class="stat-icon cyan">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                                </svg>
                             </div>
                             <div class="stat-info">
                                 <span class="stat-value" id="analytics-messages">0</span>
@@ -388,7 +475,10 @@
                         </div>
                         <div class="stat-card">
                             <div class="stat-icon emerald">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                                    <polyline points="22 4 12 14.01 9 11.01" />
+                                </svg>
                             </div>
                             <div class="stat-info">
                                 <span class="stat-value" id="analytics-accuracy">0%</span>
@@ -397,7 +487,10 @@
                         </div>
                         <div class="stat-card">
                             <div class="stat-icon amber">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10H12V2z"/><path d="M20 12a8 8 0 1 0-8 8v-8h8z" opacity="0.5"/></svg>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M12 2a10 10 0 1 0 10 10H12V2z" />
+                                    <path d="M20 12a8 8 0 1 0-8 8v-8h8z" opacity="0.5" />
+                                </svg>
                             </div>
                             <div class="stat-info">
                                 <span class="stat-value" id="analytics-categories">0</span>
@@ -431,7 +524,11 @@
             <section id="view-settings" class="view">
                 <div class="view-header">
                     <button class="mobile-menu-btn" onclick="toggleSidebar()">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="3" y1="12" x2="21" y2="12" />
+                            <line x1="3" y1="6" x2="21" y2="6" />
+                            <line x1="3" y1="18" x2="21" y2="18" />
+                        </svg>
                     </button>
                     <div>
                         <h2>Settings</h2>
@@ -447,7 +544,8 @@
                                 <label>AI Name</label>
                                 <p>Change the name of your AI assistant</p>
                             </div>
-                            <input type="text" id="setting-name" class="form-input" value="Suku" onchange="updateSettings()">
+                            <input type="text" id="setting-name" class="form-input" value="Suku"
+                                onchange="updateSettings()">
                         </div>
                         <div class="setting-item">
                             <div class="setting-info">
@@ -481,7 +579,9 @@
                                 <label>Fuzzy Matching Threshold</label>
                                 <p>Lower = more flexible matching (0.0 - 1.0)</p>
                             </div>
-                            <input type="range" id="setting-threshold" class="form-range" min="0.1" max="0.9" step="0.05" value="0.9" onchange="updateSettings()" oninput="document.getElementById('threshold-value').textContent=this.value">
+                            <input type="range" id="setting-threshold" class="form-range" min="0.1" max="0.9"
+                                step="0.05" value="0.9" onchange="updateSettings()"
+                                oninput="document.getElementById('threshold-value').textContent=this.value">
                             <span id="threshold-value" class="range-value">0.9</span>
                         </div>
                         <div class="setting-item">
@@ -497,7 +597,407 @@
 
                     </div>
 
+                    <div class="settings-group">
+                        <h3>Admin Access</h3>
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <label>Admin Login</label>
+                                <p>Unlock admin features</p>
+                            </div>
+                            <div style="display: flex; gap: 10px;">
+                                <input type="email" id="setting-admin-email" class="form-input"
+                                    placeholder="Admin email...">
+                                <button class="btn btn-primary" onclick="verifyAdmin()">Login</button>
+                            </div>
+                        </div>
+                    </div>
 
+                    <div class="settings-group danger admin-only" style="display: none;">
+                        <h3>Data Management</h3>
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <label>Reset All Data</label>
+                                <button class="mobile-menu-btn" onclick="toggleSidebar()">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <line x1="3" y1="12" x2="21" y2="12" />
+                                        <line x1="3" y1="6" x2="21" y2="6" />
+                                        <line x1="3" y1="18" x2="21" y2="18" />
+                                    </svg>
+                                </button>
+                                <div>
+                                    <h2>Knowledge Base</h2>
+                                    <p class="view-subtitle">Browse and manage Suku's learned patterns</p>
+                                </div>
+                                <div class="view-header-actions">
+                                    <div class="search-box">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <circle cx="11" cy="11" r="8" />
+                                            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                                        </svg>
+                                        <input type="text" id="knowledge-search" placeholder="Search patterns..."
+                                            oninput="filterKnowledge()">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="knowledge-content">
+                                <div class="knowledge-filters">
+                                    <button class="filter-chip active"
+                                        onclick="filterByCategory('all', this)">All</button>
+                                    <button class="filter-chip"
+                                        onclick="filterByCategory('greeting', this)">Greetings</button>
+                                    <button class="filter-chip"
+                                        onclick="filterByCategory('farewell', this)">Farewells</button>
+                                    <button class="filter-chip"
+                                        onclick="filterByCategory('question', this)">Questions</button>
+                                    <button class="filter-chip"
+                                        onclick="filterByCategory('knowledge', this)">Knowledge</button>
+                                    <button class="filter-chip" onclick="filterByCategory('humor', this)">Humor</button>
+                                    <button class="filter-chip"
+                                        onclick="filterByCategory('emotion', this)">Emotions</button>
+                                    <button class="filter-chip"
+                                        onclick="filterByCategory('general', this)">General</button>
+                                    <button class="filter-chip"
+                                        onclick="filterByCategory('custom', this)">Custom</button>
+                                </div>
+                                <div id="knowledge-grid" class="knowledge-grid">
+                                    <!-- Populated dynamically -->
+                                </div>
+                            </div>
+            </section>
+
+            <!-- Analytics View -->
+            <section id="view-analytics" class="view">
+                <div class="view-header">
+                    <button class="mobile-menu-btn" onclick="toggleSidebar()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="3" y1="12" x2="21" y2="12" />
+                            <line x1="3" y1="6" x2="21" y2="6" />
+                            <line x1="3" y1="18" x2="21" y2="18" />
+                        </svg>
+                    </button>
+                    <div>
+                        <h2>Analytics</h2>
+                        <p class="view-subtitle">Insights into Suku's performance and learning</p>
+                    </div>
+                </div>
+
+                <div class="analytics-content">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon violet">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                                    <path d="M2 17l10 5 10-5" />
+                                    <path d="M2 12l10 5 10-5" />
+                                </svg>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-value" id="analytics-patterns">0</span>
+                                <span class="stat-label">Total Patterns</span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon cyan">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                                </svg>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-value" id="analytics-messages">0</span>
+                                <span class="stat-label">Messages Processed</span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon emerald">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                                    <polyline points="22 4 12 14.01 9 11.01" />
+                                </svg>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-value" id="analytics-accuracy">0%</span>
+                                <span class="stat-label">Match Rate</span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon amber">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M12 2a10 10 0 1 0 10 10H12V2z" />
+                                    <path d="M20 12a8 8 0 1 0-8 8v-8h8z" opacity="0.5" />
+                                </svg>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-value" id="analytics-categories">0</span>
+                                <span class="stat-label">Categories</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="analytics-panels">
+                        <div class="analytics-panel">
+                            <h3>Category Distribution</h3>
+                            <div id="category-chart" class="category-chart"></div>
+                        </div>
+                        <div class="analytics-panel">
+                            <h3>Recent Activity</h3>
+                            <div id="recent-activity" class="recent-activity"></div>
+                        </div>
+                        <div class="analytics-panel">
+                            <h3>Top Matched Patterns</h3>
+                            <div id="top-patterns" class="top-patterns"></div>
+                        </div>
+                        <div class="analytics-panel">
+                            <h3>Confidence Distribution</h3>
+                            <div id="confidence-chart" class="confidence-chart"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Image Generator View -->
+            <section id="view-image-gen" class="view">
+                <div class="view-header">
+                    <button class="mobile-menu-btn" onclick="toggleSidebar()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="3" y1="12" x2="21" y2="12" />
+                            <line x1="3" y1="6" x2="21" y2="6" />
+                            <line x1="3" y1="18" x2="21" y2="18" />
+                        </svg>
+                    </button>
+                    <div>
+                        <h2>AI Image Generator</h2>
+                        <p class="view-subtitle">Create stunning visual art from text descriptions</p>
+                    </div>
+                </div>
+
+                <div class="image-gen-content">
+                    <div class="image-gen-workspace">
+                        <div class="image-gen-sidebar-panel">
+                            <div class="settings-group">
+                                <h3>Prompt Settings</h3>
+                                <div class="setting-item">
+                                    <div class="setting-info">
+                                        <label>Describe your image</label>
+                                        <p>Be specific with styles, lighting, and colors</p>
+                                    </div>
+                                    <textarea id="image-prompt" class="form-textarea"
+                                        placeholder="A futuristic cyberpunk city streets, neon lights, rainy night, highly detailed..."
+                                        rows="3"
+                                        style="width: 100%; min-height: 80px; padding: 10px; border-radius: 8px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #fff; resize: vertical; font-family: inherit; font-size: 14px;"></textarea>
+                                </div>
+                                <div class="setting-item">
+                                    <div class="setting-info">
+                                        <label>Aspect Ratio</label>
+                                    </div>
+                                    <select id="image-aspect" class="form-select">
+                                        <option value="1:1">1:1 Square</option>
+                                        <option value="16:9">16:9 Landscape</option>
+                                        <option value="9:16">9:16 Portrait</option>
+                                    </select>
+                                </div>
+                                <div class="setting-item">
+                                    <div class="setting-info">
+                                        <label>Art Style</label>
+                                    </div>
+                                    <select id="image-style" class="form-select">
+                                        <option value="cinematic">Cinematic 3D</option>
+                                        <option value="anime">Anime / Manga</option>
+                                        <option value="cyberpunk">Cyberpunk Neon</option>
+                                        <option value="watercolor">Watercolor Painting</option>
+                                        <option value="digital-art">Modern Digital Art</option>
+                                        <option value="pencil">Pencil Sketch</option>
+                                    </select>
+                                </div>
+                                <button class="btn btn-primary"
+                                    style="width: 100%; margin-top: 15px; display: flex; align-items: center; justify-content: center; gap: 8px;"
+                                    onclick="generateImage()">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                                        <circle cx="8.5" cy="8.5" r="1.5" />
+                                        <polyline points="21 15 16 10 5 21" />
+                                    </svg>
+                                    Generate Art
+                                </button>
+                            </div>
+                        </div>
+                        <div class="image-gen-preview-panel"
+                            style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 350px; background: rgba(255,255,255,0.02); border: 1px dashed rgba(255,255,255,0.1); border-radius: 12px; padding: 20px; position: relative;">
+                            <div class="preview-card" id="image-preview-card"
+                                style="width: 100%; max-width: 450px; height: 300px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; border-radius: 8px; background: rgba(0,0,0,0.2);">
+                                <div class="preview-placeholder" id="preview-placeholder"
+                                    style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; color: rgba(255,255,255,0.4);">
+                                    <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor"
+                                        stroke-width="1.5">
+                                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                                        <circle cx="8.5" cy="8.5" r="1.5" />
+                                        <polyline points="21 15 16 10 5 21" />
+                                    </svg>
+                                    <p style="margin: 0; font-size: 14px;">Your generated art will appear here</p>
+                                </div>
+                                <img id="generated-image"
+                                    style="display: none; width: 100%; height: 100%; object-fit: contain; border-radius: 8px;" />
+                                <div id="image-generating-spinner" class="generating-spinner"
+                                    style="display: none; flex-direction: column; align-items: center; justify-content: center; gap: 12px;">
+                                    <div class="spinner-circle"
+                                        style="width: 40px; height: 40px; border: 3px solid rgba(255,255,255,0.1); border-top-color: #a78bfa; border-radius: 50%; animation: spin 1s linear infinite;">
+                                    </div>
+                                    <p style="margin: 0; color: rgba(255,255,255,0.8); font-size: 14px;">Rendering with
+                                        AI...</p>
+                                </div>
+                            </div>
+                            <div class="preview-actions" id="preview-actions"
+                                style="display: none; margin-top: 15px; gap: 10px; justify-content: center; width: 100%;">
+                                <button class="btn btn-secondary" onclick="downloadGeneratedImage()">Download</button>
+                                <button class="btn btn-secondary" onclick="shareGeneratedImage()">Send to Chat</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Video Generator View -->
+            <section id="view-video-gen" class="view">
+                <div class="view-header">
+                    <button class="mobile-menu-btn" onclick="toggleSidebar()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="3" y1="12" x2="21" y2="12" />
+                            <line x1="3" y1="6" x2="21" y2="6" />
+                            <line x1="3" y1="18" x2="21" y2="18" />
+                        </svg>
+                    </button>
+                    <div>
+                        <h2>AI Video Generator <span class="version-badge"
+                                style="background: var(--accent-amber); color: #000;">Admin</span></h2>
+                        <p class="view-subtitle">Generate dynamic video clips from prompts (Admin Only)</p>
+                    </div>
+                </div>
+
+                <div class="image-gen-content"
+                    style="display: flex; align-items: center; justify-content: center; min-height: 50vh;">
+                    <div style="text-align: center; color: var(--text-secondary);">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                            style="width: 64px; height: 64px; margin-bottom: 20px; opacity: 0.5;">
+                            <polygon points="23 7 16 12 23 17 23 7" />
+                            <rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
+                        </svg>
+                        <h3 style="color: var(--text-primary); margin-bottom: 10px;">Video Generator API Disabled</h3>
+                        <p style="max-width: 400px; margin: 0 auto; line-height: 1.6;">This feature is currently under
+                            development. In the future, admins and local instances will be able to generate video
+                            content directly from here.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Settings View -->
+            <section id="view-settings" class="view">
+                <div class="view-header">
+                    <button class="mobile-menu-btn" onclick="toggleSidebar()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="3" y1="12" x2="21" y2="12" />
+                            <line x1="3" y1="6" x2="21" y2="6" />
+                            <line x1="3" y1="18" x2="21" y2="18" />
+                        </svg>
+                    </button>
+                    <div>
+                        <h2>Settings</h2>
+                        <p class="view-subtitle">Configure Suku AI's behavior</p>
+                    </div>
+                </div>
+
+                <div class="settings-content">
+                    <div class="settings-group">
+                        <h3>Personality</h3>
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <label>AI Name</label>
+                                <p>Change the name of your AI assistant</p>
+                            </div>
+                            <input type="text" id="setting-name" class="form-input" value="Suku"
+                                onchange="updateSettings()">
+                        </div>
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <label>Response Style</label>
+                                <p>How formal should responses be?</p>
+                            </div>
+                            <select id="setting-style" class="form-select" onchange="updateSettings()">
+                                <option value="casual">Casual & Friendly</option>
+                                <option value="professional">Professional</option>
+                                <option value="witty">Witty & Playful</option>
+                                <option value="minimal">Minimal & Direct</option>
+                            </select>
+                        </div>
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <label>Typing Speed</label>
+                                <p>How fast the AI types responses</p>
+                            </div>
+                            <select id="setting-speed" class="form-select" onchange="updateSettings()">
+                                <option value="fast">Fast</option>
+                                <option value="normal" selected>Normal</option>
+                                <option value="slow">Slow (Realistic)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="settings-group">
+                        <h3>Intelligence</h3>
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <label>Fuzzy Matching Threshold</label>
+                                <p>Lower = more flexible matching (0.0 - 1.0)</p>
+                            </div>
+                            <input type="range" id="setting-threshold" class="form-range" min="0.1" max="0.9"
+                                step="0.05" value="0.9" onchange="updateSettings()"
+                                oninput="document.getElementById('threshold-value').textContent=this.value">
+                            <span id="threshold-value" class="range-value">0.9</span>
+                        </div>
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <label>Learn from Conversations</label>
+                                <p>Automatically learn from chat interactions</p>
+                            </div>
+                            <label class="toggle">
+                                <input type="checkbox" id="setting-autolearn" checked onchange="updateSettings()">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="settings-group">
+                        <h3>Admin Access</h3>
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <label>Admin Login</label>
+                                <p>Unlock admin features</p>
+                            </div>
+                            <div style="display: flex; gap: 10px;">
+                                <input type="email" id="setting-admin-email" class="form-input"
+                                    placeholder="Admin email...">
+                                <button class="btn btn-primary" onclick="verifyAdmin()">Login</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-group danger admin-only" style="display: none;">
+                        <h3>Data Management</h3>
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <label>Reset All Data</label>
+                                <p>Clear all training data and start fresh</p>
+                            </div>
+                            <button class="btn btn-danger" onclick="resetAllData()">Reset Everything</button>
+                        </div>
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <label>Export Full Backup</label>
+                                <p>Download all data as JSON</p>
+                            </div>
+                            <button class="btn btn-secondary" onclick="exportFullBackup()">Export Backup</button>
+                        </div>
+                    </div>
                 </div>
             </section>
         </main>
@@ -509,8 +1009,129 @@
     <!-- Scripts -->
     <script src="nlp-engine.js"></script>
     <script src="knowledge-base.js"></script>
-
     <script src="suku-ai.js"></script>
+    <script src="suku-training-advanced-software-50k.js"></script>
+    <script src="suku-training-frontend-web-development-100k.js"></script>
+    <script src="suku-training-data-science-100k.js"></script>
+    <!-- <script src="Cybersecurity_suku_training_100k.js"></script> (Commented out to prevent browser crash due to massive size) -->
+    <!-- <script src="CloudComputing_DevOps_suku_training_100k.js"></script> (Commented out to prevent browser crash due to massive size) -->
+    <!-- <script src="MobileAppDevelopment_suku_training_100k.js"></script> (Commented out to prevent browser crash due to massive size) -->
+    <!-- <script src="GameDevelopment_suku_training_100k.js"></script> (Commented out to prevent browser crash due to massive size) -->
+    <!-- <script src="Blockchain_Web3_suku_training_100k.js"></script> (Commented out to prevent browser crash due to massive size) -->
+    <!-- <script src="AI_Robotics_suku_training_100k.js"></script> (Commented out to prevent browser crash due to massive size) -->
+    <!-- <script src="IoT_suku_training_100k.js"></script> (Commented out to prevent browser crash due to massive size) -->
+    <!-- <script src="SoftwareTesting_QA_suku_training_100k.js"></script> (Commented out to prevent browser crash due to massive size) -->
+    <!-- <script src="DatabaseManagement_SQL_suku_training_100k.js"></script> (Commented out to prevent browser crash due to massive size) -->
+    <!-- <script src="SystemProgramming_OS_suku_training_100k.js"></script> (Commented out to prevent browser crash due to massive size) -->
+    <!-- <script src="Theritikvision_suku_training_100k.js"></script> (Commented out to prevent browser crash due to massive size) -->
+    <!-- <script src="QuantumComputing_suku_training_100k.js"></script> (Commented out to prevent browser crash due to massive size) -->
+    <!-- <script src="MLOps_suku_training_100k.js"></script> (Commented out to prevent browser crash due to massive size) -->
+    <!-- <script src="ComputerGraphics_suku_training_100k.js"></script> (Commented out to prevent browser crash due to massive size) -->
+    <!-- <script src="Mathematical_Operations_suku_training_100k.js"></script> (Commented out to prevent browser crash due to massive size) -->
+    <!-- <script src="Friendly_Nature_suku_training_100k.js"></script> (Commented out to prevent browser crash due to massive size) -->
+    <!-- <script src="NLP_GenerativeAI_suku_training_100k.js"></script> (Commented out to prevent browser crash due to massive size) -->
+    <!-- <script src="Friendly_Nature_Part2_suku_training_100k.js"></script> (Commented out to prevent browser crash due to massive size) -->
+    <!-- <script src="Bioinformatics_suku_training_100k.js"></script> (Commented out to prevent browser crash due to massive size) -->
+    <!-- <script src="AutonomousVehicles_suku_training_100k.js"></script> (Commented out to prevent browser crash due to massive size) -->
+    <!-- <script src="Aerospace_suku_training_100k.js"></script> (Commented out to prevent browser crash due to massive size) -->
+    <!-- <script src="Neuromorphic_BCI_suku_training_100k.js"></script> (Commented out to prevent browser crash due to massive size) -->
+    <!-- <script src="RenewableEnergy_SmartGrid_suku_training_100k.js"></script> (Commented out to prevent browser crash due to massive size) -->
+    <!-- <script src="RealTime_Facts_suku_training_10k.js"></script> (Commented out to prevent browser crash due to massive size) -->
+    <!-- <script src="FinTech_AlgorithmicTrading_suku_training_100k.js"></script> (Commented out to prevent browser crash due to massive size) -->
+        <script src="Cybersecurity_suku_training_100k.js"></script>
+    <script src="CloudComputing_DevOps_suku_training_100k.js"></script>
+    <script src="MobileAppDevelopment_suku_training_100k.js"></script>
+    <script src="GameDevelopment_suku_training_100k.js"></script>
+    <script src="Blockchain_Web3_suku_training_100k.js"></script>
+    <script src="AI_Robotics_suku_training_100k.js"></script>
+    <script src="IoT_suku_training_100k.js"></script>
+    <script src="SoftwareTesting_QA_suku_training_100k.js"></script>
+    <script src="DatabaseManagement_SQL_suku_training_100k.js"></script>
+    <script src="SystemProgramming_OS_suku_training_100k.js"></script>
+    <script src="Theritikvision_suku_training_100k.js"></script>
+    <script src="QuantumComputing_suku_training_100k.js"></script>
+    <script src="MLOps_suku_training_100k.js"></script>
+    <script src="ComputerGraphics_suku_training_100k.js"></script>
+    <script src="Mathematical_Operations_suku_training_100k.js"></script>
+    <script src="Friendly_Nature_suku_training_100k.js"></script>
+    <script src="NLP_GenerativeAI_suku_training_100k.js"></script>
+    <script src="Friendly_Nature_Part2_suku_training_100k.js"></script>
+    <script src="Bioinformatics_suku_training_100k.js"></script>
+    <script src="AutonomousVehicles_suku_training_100k.js"></script>
+    <script src="Aerospace_suku_training_100k.js"></script>
+    <script src="Neuromorphic_BCI_suku_training_100k.js"></script>
+    <script src="RenewableEnergy_SmartGrid_suku_training_100k.js"></script>
+    <script src="RealTime_Facts_suku_training_10k.js"></script>
+    <script src="FinTech_AlgorithmicTrading_suku_training_100k.js"></script>
+    <script src="DataStructures_Algorithms_suku_training_100k.js"></script>
+    <script src="APIDesign_Microservices_suku_training_100k.js"></script>
+    <script src="AR_VR_Metaverse_suku_training_100k.js"></script>
+    <script src="SmartCities_CPS_suku_training_100k.js"></script>
+    <script src="CompilerDesign_suku_training_100k.js"></script>
+    <script src="Embedded_Robotics_suku_training_100k.js"></script>
+    <script src="BigData_ETL_Pipelines_suku_training_100k.js"></script>
+    <script src="Security_Cryptography_suku_training_100k.js"></script>
+    <script src="HighPerformanceComputing_CUDA_suku_training_100k.js"></script>
+    <script src="ComputerVision_ImageProcessing_suku_training_100k.js"></script>
+    <script src="HCI_UX_Design_suku_training_100k.js"></script>
+    <script src="OTPlessAuthentication_suku_training_100k.js"></script>
+    <script src="Massive_suku_training_1000k.js"></script>
+    <script src="Massive_suku_training_Part2_1000k.js"></script>
+    <script src="Massive_suku_training_Part3_1000k.js"></script>
+    <script src="Massive_suku_training_Part4_1000k.js"></script>
+    <script src="Massive_suku_training_Part5_1000k.js"></script>
+    <script src="Massive_suku_training_Part6_1000k.js"></script>
+    <script src="Massive_suku_training_100k.js"></script>
+    <script src="Massive_suku_training_NewTopics_100k.js"></script>
+    <script src="AI_Agents_suku_training_100k.js"></script>
+    <script src="General_Knowledge_Logic_suku_training_100k.js"></script>
+    <script src="WorldHistory_Psychology_suku_training_10k.js"></script>
+    <script src="Health_Medicine_suku_training_10k.js"></script>
+    <script src="Environment_Space_FutureTech_suku_training_10k.js"></script>
+    <script src="Business_Finance_suku_training_10k.js"></script>
+    <script src="Arts_Literature_suku_training_10k.js"></script>
+    <script src="Coding_Paradigms_suku_training_10k.js"></script>
+    <script src="System_Design_suku_training_10k.js"></script>
+    <script src="Programming_Languages_suku_training_10k.js"></script>
+    <script src="OS_Linux_Internals_suku_training_10k.js"></script>
+    <script src="Databases_Data_Engineering_suku_training_10k.js"></script>
+    <script src="Cloud_DevOps_suku_training_10k.js"></script>
+    <script src="Massive_suku_training_100k_extra.js"></script>
+    <script src="Massive_suku_training_100k_extra_3.js"></script>
+    <script src="Friendly_Nature_suku_training.js"></script>
+    <script src="Friendly_Nature_suku_training_Part2.js"></script>
+    <script src="Seed_Data_suku_training.js"></script>
+    <script src="Friendly_Nature_suku_training_100k_2.js"></script>
+    <script src="Friendly_Nature_suku_training_100k_3.js"></script>
+    <script src="Friendly_Nature_suku_training_100k_4.js"></script>
+    <script src="Friendly_Nature_suku_training_100k_5.js"></script>
+    <script src="Storytelling_Creative_suku_training_100k.js"></script>
+    <script src="Physics_Astronomy_suku_training_100k.js"></script>
+    <script src="Psychology_Behavior_suku_training_100k.js"></script>
+    <script src="Survival_Skills_suku_training_100k.js"></script>
+    <script src="Fitness_Nutrition_suku_training_100k.js"></script>
+    <script src="World_History_suku_training_100k.js"></script>
+    <script src="LifeHacks_DIY_suku_training_100k.js"></script>
+    <script src="Mythology_Folklore_suku_training_100k.js"></script>
+    <script src="Space_Exploration_suku_training_100k.js"></script>
+    <script src="PersonalFinance_suku_training_100k.js"></script>
+    <script src="Philosophy_Ethics_suku_training_100k.js"></script>
+    <script src="Culinary_Cooking_suku_training_100k.js"></script>
+    <script src="Geography_Cultures_suku_training_100k.js"></script>
+    <script src="Music_Audio_suku_training_100k.js"></script>
+    <script src="Sports_Athletics_suku_training_100k.js"></script>
+    <script src="Animals_Wildlife_suku_training_100k.js"></script>
+    <script src="Literature_Books_suku_training_100k.js"></script>
+    <script src="Movies_Cinema_suku_training_100k.js"></script>
+    <script src="Languages_Linguistics_suku_training_100k.js"></script>
+    <script src="Architecture_Engineering_suku_training_100k.js"></script>
+    <script src="Business_Entrepreneurship_suku_training_100k.js"></script>
+    <script src="Computer_Science_suku_training_100k.js"></script>
+    <script src="Art_History_suku_training_100k.js"></script>
+    <script src="Medicine_Anatomy_suku_training_100k.js"></script>
+    <script src="Law_Legal_suku_training_100k.js"></script>
+    <script src="History_WorldEvents_suku_training_100k.js"></script>
+    <script src="image-generator.js"></script>
     <script src="app.js"></script>
 </body>
 </html>

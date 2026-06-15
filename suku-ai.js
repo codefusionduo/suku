@@ -12,6 +12,7 @@ class SukuAI {
         this.context = []; // Conversation history
         this.settings = this.kb.loadSettings();
         this.userMemory = this.loadUserMemory(); // Remember user-specific data
+        this.trainBulk = true;
     }
 
     /**
@@ -46,10 +47,44 @@ class SukuAI {
         
         if (!trimmed) {
             return {
-                text: 'Did you mean to send something? I\'m all ears! 👂',
+                text: 'Hey, I\'m right here! 💖 Did you want to say something? Take your time — I\'m always ready to listen! 🤗',
                 confidence: 1,
                 intent: 'empty',
                 processingTime: 0
+            };
+        }
+
+        const lowerInput = trimmed.toLowerCase();
+        const hasGirl = lowerInput.includes('girl') || lowerInput.includes('ladki') || lowerInput.includes('female') || lowerInput.includes('women') || lowerInput.includes('woman') || lowerInput.includes('gf');
+        const hasImage = lowerInput.includes('image') || lowerInput.includes('photo') || lowerInput.includes('pic') || lowerInput.includes('picture') || lowerInput.includes('banao') || lowerInput.includes('banna') || lowerInput.includes('show') || lowerInput.includes('de do') || lowerInput.includes('draw') || lowerInput.includes('create') || lowerInput.includes('generate');
+
+        if (hasGirl && hasImage) {
+            const girlImages = [
+                "image generation/download.png",
+                "image generation/download.jpg",
+                "image generation/download (1).jpg",
+                "image generation/𝒲aguri 🪷.jpg",
+                "image generation/( ˘ ³˘)♥︎ᗰY ᖴᗩᐯ ᑕᕼᗩᖇᗩᑕTᗴᖇ.jpg",
+                "image generation/3857cdca52851a352561f7cad82d80f0.jpg",
+                "image generation/8936b78be1366274e1c08246504a73be.jpg",
+                "image generation/a9df76aa5b26f37f83298bf50f7a0d15.jpg",
+                "image generation/fb3c0bea8844f152c9f9f4a5740556f9.jpg"
+            ];
+            const selectedImage = girlImages[Math.floor(Math.random() * girlImages.length)];
+            
+            // Add user message to context
+            this.context.push({ role: 'user', text: trimmed, timestamp: Date.now() });
+            
+            const responseText = `Here is a girl image for you: <br><br><img src="${selectedImage}" style="max-width: 100%; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);" />`;
+            
+            // Add AI response to context
+            this.context.push({ role: 'ai', text: responseText, timestamp: Date.now() });
+            
+            return {
+                text: responseText,
+                confidence: 1.0,
+                intent: 'image_generation',
+                processingTime: Math.round(performance.now() - startTime)
             };
         }
 
@@ -135,27 +170,52 @@ class SukuAI {
      * Handle math expressions
      */
     isMathExpression(text) {
-        return /^[\d\s\+\-\*\/\.\(\)\^%]+$/.test(text.trim()) ||
-               /^(?:what\s+is\s+)?(\d+)\s*[\+\-\*\/\^%]\s*(\d+)/.test(text.toLowerCase().trim());
+        const lower = text.toLowerCase().trim();
+        if (/^[\d\s\+\-\*\/\.\(\)\^%]+$/.test(lower)) return true;
+        if (/^(?:what\s+is\s+)?(\d+(?:\.\d+)?)\s*[\+\-\*\/\^%]\s*(\d+(?:\.\d+)?)/.test(lower)) return true;
+        if (/(square root|sqrt|cube root|cbrt)\s*(of\s*)?\d+(?:\.\d+)?/.test(lower)) return true;
+        if (/^(calculate|solve)\s+[\d\s\+\-\*\/\.\(\)\^%]+/.test(lower)) return true;
+        return false;
     }
 
     handleMath(input) {
         try {
-            // Extract math expression
-            let expr = input.toLowerCase().replace(/^what\s+is\s+/, '').trim();
+            let expr = input.toLowerCase().trim();
+            // Remove common text prefixes
+            expr = expr.replace(/^(what\s+is(\s+the)?|calculate|solve)\s+/g, '').trim();
+
+            // Handle square root
+            const sqrtMatch = expr.match(/(?:square root(?: of)?|sqrt(?: of)?)\s*(\d+(?:\.\d+)?)/);
+            if (sqrtMatch) {
+                const val = parseFloat(sqrtMatch[1]);
+                const result = Math.sqrt(val);
+                return { text: `🧮 The square root of ${val} is **${result}**!`, confidence: 1.0, intent: 'math' };
+            }
+
+            // Handle cube root
+            const cbrtMatch = expr.match(/(?:cube root(?: of)?|cbrt(?: of)?)\s*(\d+(?:\.\d+)?)/);
+            if (cbrtMatch) {
+                const val = parseFloat(cbrtMatch[1]);
+                const result = Math.cbrt(val);
+                return { text: `🧮 The cube root of ${val} is **${result}**!`, confidence: 1.0, intent: 'math' };
+            }
+
+            // Handle exponentiation and standard evaluation
             expr = expr.replace(/\^/g, '**');
             
-            // Safety: only allow math characters
+            // Safety: only allow math characters for the Function evaluator
             if (!/^[\d\s\+\-\*\/\.\(\)\%]+$/.test(expr)) {
                 throw new Error('Invalid expression');
             }
 
-            // Evaluate
+            // Evaluate safely using Function wrapper
             const result = Function('"use strict"; return (' + expr + ')')();
             
             if (typeof result === 'number' && !isNaN(result)) {
+                // If it's a float, limit decimals for clean output
+                const displayResult = Number.isInteger(result) ? result : parseFloat(result.toFixed(6));
                 return {
-                    text: `🧮 The answer is **${result}**!`,
+                    text: `🧮 The answer is **${displayResult}**!`,
                     confidence: 1.0,
                     intent: 'math'
                 };
@@ -163,7 +223,7 @@ class SukuAI {
             throw new Error('Invalid result');
         } catch (e) {
             return {
-                text: 'Hmm, I had trouble with that math expression. 🤔 Try something simpler like "2 + 2" or "what is 15 * 3".',
+                text: 'Hmm, I had trouble evaluating that math expression. 🤔 Try something like "2 + 2", "calculate 15 * 3", "square root of 16", or "cbrt 27".',
                 confidence: 0.5,
                 intent: 'math_error'
             };
@@ -249,7 +309,7 @@ class SukuAI {
         // Yes/No responses
         if (['yes', 'yeah', 'sure', 'okay', 'ok', 'yep', 'yup'].includes(lower)) {
             return {
-                text: 'Great! 😊 What would you like to know or talk about?',
+                text: 'Awesome! 😊💖 I love your energy! So, what shall we chat about? I\'m all yours!',
                 confidence: 0.7,
                 intent: 'affirmative'
             };
@@ -257,7 +317,7 @@ class SukuAI {
 
         if (['no', 'nah', 'nope'].includes(lower)) {
             return {
-                text: 'No worries! 😊 Let me know if you need anything else.',
+                text: 'Totally okay, friend! 🤗 No pressure at all. I\'m right here whenever you need me — just say the word! 💜',
                 confidence: 0.7,
                 intent: 'negative'
             };
@@ -458,7 +518,7 @@ class SukuAI {
 
         // Ultimate fallback
         return {
-            text: 'I\'m not sure I understand that yet, but I\'m always learning! 🧠 You can teach me by saying "learn that [question] means [answer]".',
+            text: 'Hmm, I haven\'t learned about that yet, but I really WANT to! 🥺💜 You can teach me by saying "learn that [question] means [answer]" — I promise I\'ll remember it forever! 🧠✨',
             confidence: 0,
             intent: 'fallback',
             sentiment: sentiment.label
