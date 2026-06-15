@@ -14,7 +14,7 @@
         rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
-
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 
 <body>
@@ -28,8 +28,44 @@
         <div class="orb orb-4"></div>
     </div>
 
+    <!-- Login Overlay -->
+    <div id="login-overlay" class="login-overlay">
+        <div class="login-modal">
+            <div class="login-logo">
+                <svg viewBox="0 0 40 40" fill="none" width="60" height="60">
+                    <circle cx="20" cy="20" r="18" stroke="url(#loginGrad)" stroke-width="2.5" />
+                    <path d="M14 20C14 16.6863 16.6863 14 20 14C23.3137 14 26 16.6863 26 20" stroke="url(#loginGrad)" stroke-width="2.5" stroke-linecap="round" />
+                    <circle cx="20" cy="24" r="3" fill="url(#loginGrad)" />
+                    <defs>
+                        <linearGradient id="loginGrad" x1="2" y1="2" x2="38" y2="38">
+                            <stop stop-color="#a78bfa" />
+                            <stop offset="1" stop-color="#06b6d4" />
+                        </linearGradient>
+                    </defs>
+                </svg>
+            </div>
+            <h2>Sign in to Suku AI</h2>
+            <p>Please sign in with your Google account to continue.</p>
+            <div id="g_id_onload"
+                 data-client_id="YOUR_GOOGLE_CLIENT_ID"
+                 data-context="signin"
+                 data-ux_mode="popup"
+                 data-callback="handleCredentialResponse"
+                 data-auto_prompt="false">
+            </div>
+            <div class="g_id_signin"
+                 data-type="standard"
+                 data-shape="rectangular"
+                 data-theme="outline"
+                 data-text="signin_with"
+                 data-size="large"
+                 data-logo_alignment="left">
+            </div>
+        </div>
+    </div>
+
     <!-- App Container -->
-    <div id="app" class="app-container">
+    <div id="app" class="app-container" style="display: none;">
         <!-- Sidebar -->
         <aside id="sidebar" class="sidebar">
             <div class="sidebar-header">
@@ -1013,32 +1049,9 @@
     <script src="suku-training-advanced-software-50k.js"></script>
     <script src="suku-training-frontend-web-development-100k.js"></script>
     <script src="suku-training-data-science-100k.js"></script>
-    <!-- <script src="Cybersecurity_suku_training_100k.js"></script> (Commented out to prevent browser crash due to massive size) -->
-    <!-- <script src="CloudComputing_DevOps_suku_training_100k.js"></script> (Commented out to prevent browser crash due to massive size) -->
-    <!-- <script src="MobileAppDevelopment_suku_training_100k.js"></script> (Commented out to prevent browser crash due to massive size) -->
-    <!-- <script src="GameDevelopment_suku_training_100k.js"></script> (Commented out to prevent browser crash due to massive size) -->
-    <!-- <script src="Blockchain_Web3_suku_training_100k.js"></script> (Commented out to prevent browser crash due to massive size) -->
-    <!-- <script src="AI_Robotics_suku_training_100k.js"></script> (Commented out to prevent browser crash due to massive size) -->
-    <!-- <script src="IoT_suku_training_100k.js"></script> (Commented out to prevent browser crash due to massive size) -->
-    <!-- <script src="SoftwareTesting_QA_suku_training_100k.js"></script> (Commented out to prevent browser crash due to massive size) -->
-    <!-- <script src="DatabaseManagement_SQL_suku_training_100k.js"></script> (Commented out to prevent browser crash due to massive size) -->
-    <!-- <script src="SystemProgramming_OS_suku_training_100k.js"></script> (Commented out to prevent browser crash due to massive size) -->
-    <!-- <script src="Theritikvision_suku_training_100k.js"></script> (Commented out to prevent browser crash due to massive size) -->
-    <!-- <script src="QuantumComputing_suku_training_100k.js"></script> (Commented out to prevent browser crash due to massive size) -->
-    <!-- <script src="MLOps_suku_training_100k.js"></script> (Commented out to prevent browser crash due to massive size) -->
-    <!-- <script src="ComputerGraphics_suku_training_100k.js"></script> (Commented out to prevent browser crash due to massive size) -->
-    <!-- <script src="Mathematical_Operations_suku_training_100k.js"></script> (Commented out to prevent browser crash due to massive size) -->
-    <!-- <script src="Friendly_Nature_suku_training_100k.js"></script> (Commented out to prevent browser crash due to massive size) -->
-    <!-- <script src="NLP_GenerativeAI_suku_training_100k.js"></script> (Commented out to prevent browser crash due to massive size) -->
-    <!-- <script src="Friendly_Nature_Part2_suku_training_100k.js"></script> (Commented out to prevent browser crash due to massive size) -->
-    <!-- <script src="Bioinformatics_suku_training_100k.js"></script> (Commented out to prevent browser crash due to massive size) -->
-    <!-- <script src="AutonomousVehicles_suku_training_100k.js"></script> (Commented out to prevent browser crash due to massive size) -->
-    <!-- <script src="Aerospace_suku_training_100k.js"></script> (Commented out to prevent browser crash due to massive size) -->
-    <!-- <script src="Neuromorphic_BCI_suku_training_100k.js"></script> (Commented out to prevent browser crash due to massive size) -->
-    <!-- <script src="RenewableEnergy_SmartGrid_suku_training_100k.js"></script> (Commented out to prevent browser crash due to massive size) -->
-    <!-- <script src="RealTime_Facts_suku_training_10k.js"></script> (Commented out to prevent browser crash due to massive size) -->
-    <!-- <script src="FinTech_AlgorithmicTrading_suku_training_100k.js"></script> (Commented out to prevent browser crash due to massive size) -->
-        <script src="Cybersecurity_suku_training_100k.js"></script>
+    <!-- Massive Training Data (Commented out to prevent browser crash) -->
+    <!--
+    <script src="Cybersecurity_suku_training_100k.js"></script>
     <script src="CloudComputing_DevOps_suku_training_100k.js"></script>
     <script src="MobileAppDevelopment_suku_training_100k.js"></script>
     <script src="GameDevelopment_suku_training_100k.js"></script>
@@ -1131,6 +1144,12 @@
     <script src="Medicine_Anatomy_suku_training_100k.js"></script>
     <script src="Law_Legal_suku_training_100k.js"></script>
     <script src="History_WorldEvents_suku_training_100k.js"></script>
+    <script src="Chemistry_PeriodicTable_suku_training_100k.js"></script>
+    <script src="Economics_Finance_suku_training_100k.js"></script>
+    <script src="InternetCulture_Memes_suku_training_10k.js"></script>
+    <script src="Fashion_Design_suku_training_10k.js"></script>
+    <script src="suku-training-massive.js"></script>
+    -->
     <script src="image-generator.js"></script>
     <script src="app.js"></script>
 </body>

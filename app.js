@@ -10,6 +10,23 @@ let currentView = 'chat';
 let chatHistory = [];
 let isProcessing = false;
 
+// ===== GOOGLE SIGN-IN =====
+function handleCredentialResponse(response) {
+    // Decode the JWT token to get user info if needed
+    // const payload = JSON.parse(atob(response.credential.split('.')[1]));
+    // console.log("User signed in:", payload);
+
+    // Hide login overlay
+    document.getElementById('login-overlay').classList.add('hidden');
+    
+    // Show main app container
+    const appContainer = document.getElementById('app');
+    appContainer.style.display = 'flex';
+    
+    // Optional: show a welcome toast
+    showToast('Signed in successfully!', 'success');
+}
+
 // ===== INITIALIZATION =====
 document.addEventListener('DOMContentLoaded', () => {
     // Initialize AI

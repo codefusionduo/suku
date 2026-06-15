@@ -680,6 +680,15 @@ add('knowledge', ['what is artificial general intelligence', 'what is agi', 'exp
 add('knowledge', ['what is 5g', 'explain 5g', '5g technology'],
     ["5G is the 5th generation of mobile network technology! 📶\\n\\n**Speed comparison:**\\n• 3G: ~2 Mbps (2001)\\n• 4G/LTE: ~100 Mbps (2010)\\n• 5G: up to 10 Gbps (100x faster than 4G!)\\n\\n**Key benefits:**\\n• Ultra-fast downloads (a movie in seconds)\\n• Ultra-low latency (~1ms — critical for self-driving cars)\\n• Massive connectivity (1 million devices per km²)\\n• Enables IoT, remote surgery, smart cities, AR/VR\\n\\n**How it works:**\\n• Uses higher frequency radio waves (mmWave)\\n• Requires more cell towers but smaller ones\\n\\n5G is the backbone for the next wave of technological innovation! 🚀"])
 
+add('knowledge', ['what is a black hole', 'explain black holes', 'black hole facts'],
+    ["A black hole is a region of space where gravity is so strong that nothing — not even light — can escape! 🕳️\\n\\n• Formed when massive stars collapse at the end of their life cycle\\n• The \\'Event Horizon\\' is the boundary beyond which nothing can return\\n• At the center is the \\'Singularity\\' where matter is crushed to infinite density\\n• Time slows down near a black hole due to intense gravity\\n• The first ever image of a black hole was captured in 2019 (M87 galaxy)\\n\\nDon\\'t worry, our Sun is too small to ever become a black hole! ☀️"])
+
+add('knowledge', ['what is apollo 11', 'tell me about apollo 11', 'moon landing'],
+    ["Apollo 11 was the historic NASA mission that first put humans on the Moon! 🌕\\n\\n• Launched on July 16, 1969, and landed on July 20, 1969\\n• Crew: Neil Armstrong, Buzz Aldrin, and Michael Collins\\n• Neil Armstrong\\'s famous words: \\'That\\'s one small step for man, one giant leap for mankind.\\'\\n• They spent about 2.5 hours outside the spacecraft\\n• The computers onboard had less processing power than a modern smart toaster!\\n\\nIt remains one of humanity\\'s greatest technological achievements! 🚀"])
+
+add('knowledge', ['what is the james webb space telescope', 'tell me about jwst', 'james webb telescope'],
+    ["The James Webb Space Telescope (JWST) is the most powerful space telescope ever built! 🔭\\n\\n• Launched on December 25, 2021\\n• It observes the universe primarily in infrared light\\n• Its primary mirror is 6.5 meters across (made of 18 gold-plated segments)\\n• It orbits the Sun 1.5 million kilometers from Earth at Lagrange point L2\\n• Can see back in time to the very first galaxies formed after the Big Bang\\n• Helps study exoplanet atmospheres for signs of life\\n\\nIt\\'s rewriting our understanding of the universe! ✨"])
+
 # ═══════════════════════════════════════════════════════════
 # MORE CONVERSATIONAL PATTERNS
 # ═══════════════════════════════════════════════════════════
@@ -908,6 +917,38 @@ for term, definition in math_terms:
     add('knowledge', [f'what is a {term.lower()}', f'define {term.lower()}', f'{term.lower()} definition'],
         [f'In mathematics, a **{term}** is defined as: {definition} 📐', f'**{term}**: {definition} 🧮'])
 
+# 8. Famous Books & Authors
+books = [
+    ("To Kill a Mockingbird", "Harper Lee", "1960"),
+    ("1984", "George Orwell", "1949"),
+    ("Pride and Prejudice", "Jane Austen", "1813"),
+    ("The Great Gatsby", "F. Scott Fitzgerald", "1925"),
+    ("Moby-Dick", "Herman Melville", "1851"),
+    ("The Catcher in the Rye", "J.D. Salinger", "1951"),
+    ("The Lord of the Rings", "J.R.R. Tolkien", "1954"),
+    ("Frankenstein", "Mary Shelley", "1818"),
+]
+
+for title, author, year in books:
+    add('knowledge', [f'who wrote {title.lower()}', f'when was {title.lower()} published', f'author of {title.lower()}'],
+        [f'The book **{title}** was written by **{author}** and published in **{year}**! 📚', f'**{author}** wrote the classic novel **{title}**, which was published in **{year}**. 📖'])
+
+# 9. Historical Figures
+historical_figures = [
+    ("Albert Einstein", "Theoretical physicist who developed the theory of relativity"),
+    ("Isaac Newton", "Mathematician and physicist who formulated the laws of motion and universal gravitation"),
+    ("Marie Curie", "Physicist and chemist who conducted pioneering research on radioactivity"),
+    ("Nelson Mandela", "Anti-apartheid revolutionary and political leader who served as the first president of South Africa"),
+    ("Mahatma Gandhi", "Lawyer and anti-colonial nationalist who employed nonviolent resistance to lead the successful campaign for India's independence"),
+    ("Abraham Lincoln", "16th U.S. President who led the nation through the Civil War and abolished slavery"),
+    ("Winston Churchill", "Prime Minister of the UK during the Second World War"),
+    ("Martin Luther King Jr.", "American Christian minister and activist who became the most visible spokesperson and leader in the civil rights movement")
+]
+
+for name, desc in historical_figures:
+    add('knowledge', [f'who was {name.lower()}', f'tell me about {name.lower()}', f'historical figure {name.lower()}'],
+        [f'**{name}** was a {desc}. 🌍', f'Let me tell you about **{name}**: they were a {desc}. 📜'])
+
 # 7. Programmatic padding of diverse conversational variations & facts to ensure line count
 for topic_num in range(1, 416667): # Increased to reach ~10,000,000 total lines
     add('general', [f'random discussion topic {topic_num}', f'give me discussion {topic_num}', f'topic {topic_num}'],
@@ -922,17 +963,22 @@ for topic_num in range(1, 416667): # Increased to reach ~10,000,000 total lines
 
 
 
-# Output the file as JSONL
-with open("suku-training-massive.jsonl", "w", encoding="utf-8") as f:
-    for entry in entries:
-        for pattern in entry['patterns']:
-            for response in entry['responses']:
-                obj = {
-                    "messages": [
-                        {"role": "user", "content": pattern},
-                        {"role": "assistant", "content": response}
-                    ]
-                }
-                f.write(json.dumps(obj, ensure_ascii=False) + "\n")
+# Output the file as a JavaScript file for direct inclusion in the HTML
+with open("suku-training-massive.js", "w", encoding="utf-8") as f:
+    f.write("// Auto-generated Suku AI Training Data\n")
+    f.write("const generatedMassiveTrainingData = [\n")
+    for i, entry in enumerate(entries):
+        f.write("  " + json.dumps(entry, ensure_ascii=False))
+        if i < len(entries) - 1:
+            f.write(",\n")
+        else:
+            f.write("\n")
+    f.write("];\n\n")
+    f.write("// Inject into Suku's knowledge base if the array exists\n")
+    f.write("if (typeof window.knowledgeBase !== 'undefined' && Array.isArray(window.knowledgeBase)) {\n")
+    f.write("    window.knowledgeBase.push(...generatedMassiveTrainingData);\n")
+    f.write("} else {\n")
+    f.write("    window.sukuMassiveData = generatedMassiveTrainingData;\n")
+    f.write("}\n")
 
-print(f"Generated {len(entries)} entries successfully in JSONL format.")
+print(f"Generated {len(entries)} entries successfully in JS format (suku-training-massive.js).")
