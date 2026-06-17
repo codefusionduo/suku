@@ -1,9 +1,14 @@
 # Ignore log files
 *.log
-suku-training-massive*.js
+suku-training-massive
 scratch/
 
 # Ignore all javascript files
 *.js
 
 
+
+# Ignore massive training files
+suku-training-*.js
+*suku_training_100k.js
+gen_*.js
