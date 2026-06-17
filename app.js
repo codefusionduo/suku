@@ -130,7 +130,6 @@ async function sendMessage() {
             updateStats();
         } catch (e) {
             showTyping(false);
-            addMessage('ai', 'Oops! Something went wrong in my circuits. 🔧 Please try again!', 0);
             console.error('AI Error:', e);
         }
         isProcessing = false;
