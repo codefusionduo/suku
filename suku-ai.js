@@ -435,6 +435,31 @@ class SukuAI {
             };
         }
 
+        // --- FETCH FROM BACKEND (PostgreSQL) ---
+        try {
+            const dbResponse = await fetch('http://localhost:3000/api/search', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ query: input })
+            });
+            
+            if (dbResponse.ok) {
+                const dbData = await dbResponse.json();
+                if (dbData.success && dbData.answers && dbData.answers.length > 0) {
+                    this.kb.recordMatch('database_match', 0.95);
+                    this.kb.logActivity('chat', `DB Match: "${input.substring(0, 40)}"`);
+                    return {
+                        text: this.personalizeResponse(dbData.answers[0]),
+                        confidence: 0.95,
+                        intent: 'database_knowledge',
+                        matchedPattern: 'Database Query'
+                    };
+                }
+            }
+        } catch (dbError) {
+            console.warn("Backend DB not running or unreachable:", dbError);
+        }
+
         // No good match — use Gemini if key is provided
         if (this.settings.geminiApiKey) {
             const geminiResponse = await this.callGeminiAPI(input);
