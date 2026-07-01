@@ -800,8 +800,11 @@ function showAdminFeatures() {
 function updateStats() {
     const entries = ai.kb.getAll().filter(e => e.category !== 'system');
     
-    document.getElementById('stat-patterns').textContent = entries.length;
-    document.getElementById('stat-convos').textContent = ai.kb.stats.totalMessages;
+    const patternsEl = document.getElementById('stat-patterns');
+    if (patternsEl) patternsEl.textContent = entries.length;
+    
+    const convosEl = document.getElementById('stat-convos');
+    if (convosEl) convosEl.textContent = ai.kb.stats.totalMessages;
 }
 
 // ===== UTILITY FUNCTIONS =====

@@ -437,11 +437,16 @@ class SukuAI {
 
         // --- FETCH FROM BACKEND (PostgreSQL) ---
         try {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 3000);
+            
             const dbResponse = await fetch('http://localhost:3000/api/search', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ query: input })
+                body: JSON.stringify({ query: input }),
+                signal: controller.signal
             });
+            clearTimeout(timeoutId);
             
             if (dbResponse.ok) {
                 const dbData = await dbResponse.json();

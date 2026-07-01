@@ -1038,6 +1038,201 @@
                                 <p>Download all data as JSON</p>
                             </div>
                             <button class="btn btn-secondary" onclick="exportFullBackup()">Export Backup</button>
+                                        <option value="cinematic">Cinematic 3D</option>
+                                        <option value="anime">Anime / Manga</option>
+                                        <option value="cyberpunk">Cyberpunk Neon</option>
+                                        <option value="watercolor">Watercolor Painting</option>
+                                        <option value="digital-art">Modern Digital Art</option>
+                                        <option value="pencil">Pencil Sketch</option>
+                                    </select>
+                                </div>
+                                <button class="btn btn-primary"
+                                    style="width: 100%; margin-top: 15px; display: flex; align-items: center; justify-content: center; gap: 8px;"
+                                    onclick="generateImage()">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                                        <circle cx="8.5" cy="8.5" r="1.5" />
+                                        <polyline points="21 15 16 10 5 21" />
+                                    </svg>
+                                    Generate Art
+                                </button>
+                            </div>
+                        </div>
+                        <div class="image-gen-preview-panel"
+                            style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 350px; background: rgba(255,255,255,0.02); border: 1px dashed rgba(255,255,255,0.1); border-radius: 12px; padding: 20px; position: relative;">
+                            <div class="preview-card" id="image-preview-card"
+                                style="width: 100%; max-width: 450px; height: 300px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; border-radius: 8px; background: rgba(0,0,0,0.2);">
+                                <div class="preview-placeholder" id="preview-placeholder"
+                                    style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; color: rgba(255,255,255,0.4);">
+                                    <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor"
+                                        stroke-width="1.5">
+                                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                                        <circle cx="8.5" cy="8.5" r="1.5" />
+                                        <polyline points="21 15 16 10 5 21" />
+                                    </svg>
+                                    <p style="margin: 0; font-size: 14px;">Your generated art will appear here</p>
+                                </div>
+                                <img id="generated-image"
+                                    style="display: none; width: 100%; height: 100%; object-fit: contain; border-radius: 8px;" />
+                                <div id="image-generating-spinner" class="generating-spinner"
+                                    style="display: none; flex-direction: column; align-items: center; justify-content: center; gap: 12px;">
+                                    <div class="spinner-circle"
+                                        style="width: 40px; height: 40px; border: 3px solid rgba(255,255,255,0.1); border-top-color: #a78bfa; border-radius: 50%; animation: spin 1s linear infinite;">
+                                    </div>
+                                    <p style="margin: 0; color: rgba(255,255,255,0.8); font-size: 14px;">Rendering with
+                                        AI...</p>
+                                </div>
+                            </div>
+                            <div class="preview-actions" id="preview-actions"
+                                style="display: none; margin-top: 15px; gap: 10px; justify-content: center; width: 100%;">
+                                <button class="btn btn-secondary" onclick="downloadGeneratedImage()">Download</button>
+                                <button class="btn btn-secondary" onclick="shareGeneratedImage()">Send to Chat</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Video Generator View -->
+            <section id="view-video-gen" class="view">
+                <div class="view-header">
+                    <button class="mobile-menu-btn" onclick="toggleSidebar()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="3" y1="12" x2="21" y2="12" />
+                            <line x1="3" y1="6" x2="21" y2="6" />
+                            <line x1="3" y1="18" x2="21" y2="18" />
+                        </svg>
+                    </button>
+                    <div>
+                        <h2>AI Video Generator <span class="version-badge"
+                                style="background: var(--accent-amber); color: #000;">Admin</span></h2>
+                        <p class="view-subtitle">Generate dynamic video clips from prompts (Admin Only)</p>
+                    </div>
+                </div>
+
+                <div class="image-gen-content"
+                    style="display: flex; align-items: center; justify-content: center; min-height: 50vh;">
+                    <div style="text-align: center; color: var(--text-secondary);">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                            style="width: 64px; height: 64px; margin-bottom: 20px; opacity: 0.5;">
+                            <polygon points="23 7 16 12 23 17 23 7" />
+                            <rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
+                        </svg>
+                        <h3 style="color: var(--text-primary); margin-bottom: 10px;">Video Generator API Disabled</h3>
+                        <p style="max-width: 400px; margin: 0 auto; line-height: 1.6;">This feature is currently under
+                            development. In the future, admins and local instances will be able to generate video
+                            content directly from here.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Settings View -->
+            <section id="view-settings" class="view">
+                <div class="view-header">
+                    <button class="mobile-menu-btn" onclick="toggleSidebar()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="3" y1="12" x2="21" y2="12" />
+                            <line x1="3" y1="6" x2="21" y2="6" />
+                            <line x1="3" y1="18" x2="21" y2="18" />
+                        </svg>
+                    </button>
+                    <div>
+                        <h2>Settings</h2>
+                        <p class="view-subtitle">Configure Suku AI's behavior</p>
+                    </div>
+                </div>
+
+                <div class="settings-content">
+                    <div class="settings-group">
+                        <h3>Personality</h3>
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <label>AI Name</label>
+                                <p>Change the name of your AI assistant</p>
+                            </div>
+                            <input type="text" id="setting-name" class="form-input" value="Suku"
+                                onchange="updateSettings()">
+                        </div>
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <label>Response Style</label>
+                                <p>How formal should responses be?</p>
+                            </div>
+                            <select id="setting-style" class="form-select" onchange="updateSettings()">
+                                <option value="casual">Casual & Friendly</option>
+                                <option value="professional">Professional</option>
+                                <option value="witty">Witty & Playful</option>
+                                <option value="minimal">Minimal & Direct</option>
+                            </select>
+                        </div>
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <label>Typing Speed</label>
+                                <p>How fast the AI types responses</p>
+                            </div>
+                            <select id="setting-speed" class="form-select" onchange="updateSettings()">
+                                <option value="fast">Fast</option>
+                                <option value="normal" selected>Normal</option>
+                                <option value="slow">Slow (Realistic)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="settings-group">
+                        <h3>Intelligence</h3>
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <label>Fuzzy Matching Threshold</label>
+                                <p>Lower = more flexible matching (0.0 - 1.0)</p>
+                            </div>
+                            <input type="range" id="setting-threshold" class="form-range" min="0.1" max="0.9"
+                                step="0.05" value="0.9" onchange="updateSettings()"
+                                oninput="document.getElementById('threshold-value').textContent=this.value">
+                            <span id="threshold-value" class="range-value">0.9</span>
+                        </div>
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <label>Learn from Conversations</label>
+                                <p>Automatically learn from chat interactions</p>
+                            </div>
+                            <label class="toggle">
+                                <input type="checkbox" id="setting-autolearn" checked onchange="updateSettings()">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="settings-group">
+                        <h3>Admin Access</h3>
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <label>Admin Login</label>
+                                <p>Unlock admin features</p>
+                            </div>
+                            <div style="display: flex; gap: 10px;">
+                                <input type="email" id="setting-admin-email" class="form-input"
+                                    placeholder="Admin email...">
+                                <button class="btn btn-primary" onclick="verifyAdmin()">Login</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-group danger admin-only" style="display: none;">
+                        <h3>Data Management</h3>
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <label>Reset All Data</label>
+                                <p>Clear all training data and start fresh</p>
+                            </div>
+                            <button class="btn btn-danger" onclick="resetAllData()">Reset Everything</button>
+                        </div>
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <label>Export Full Backup</label>
+                                <p>Download all data as JSON</p>
+                            </div>
+                            <button class="btn btn-secondary" onclick="exportFullBackup()">Export Backup</button>
                         </div>
                     </div>
                 </div>
@@ -1053,99 +1248,17 @@
     <script src="knowledge-base.js"></script>
     <script src="suku-ai.js"></script>
     <script src="image-generator.js"></script>
-    <script src="app.js"></script>    <!-- Massive Training Data (Commented out to prevent browser crash) -->    <script src="RealTime_Facts_suku_training_10k.js"></script>    <script src="Massive_suku_training_Part6_1000k.js"></script>    <script src="Massive_suku_training_NewTopics_100k.js"></script>    <script src="Friendly_Nature_suku_training_100k_5.js"></script>    <input type="text" id="setting-name" class="form-input" value="Suku" onchange="updateSettings()">
-    </div>
-    <div class="setting-item">
-        <div class="setting-info">
-            <label>Response Style</label>
-            <p>How formal should responses be?</p>
-        </div>
-        <select id="setting-style" class="form-select" onchange="updateSettings()">
-            <option value="casual">Casual & Friendly</option>
-            <option value="professional">Professional</option>
-            <option value="witty">Witty & Playful</option>
-            <option value="minimal">Minimal & Direct</option>
-        </select>
-    </div>
-    <div class="setting-item">
-        <div class="setting-info">
-            <label>Typing Speed</label>
-            <p>How fast the AI types responses</p>
-        </div>
-        <select id="setting-speed" class="form-select" onchange="updateSettings()">
-            <option value="fast">Fast</option>
-            <option value="normal" selected>Normal</option>
-            <option value="slow">Slow (Realistic)</option>
-        </select>
-    </div>
-    </div>
-
-    <div class="settings-group">
-        <h3>Intelligence</h3>
-        <div class="setting-item">
-            <div class="setting-info">
-                <label>Fuzzy Matching Threshold</label>
-                <p>Lower = more flexible matching (0.0 - 1.0)</p>
-            </div>
-            <input type="range" id="setting-threshold" class="form-range" min="0.1" max="0.9" step="0.05" value="0.9"
-                onchange="updateSettings()" oninput="document.getElementById('threshold-value').textContent=this.value">
-            <span id="threshold-value" class="range-value">0.9</span>
-        </div>
-        <div class="setting-item">
-            <div class="setting-info">
-                <label>Learn from Conversations</label>
-                <p>Automatically learn from chat interactions</p>
-            </div>
-            <label class="toggle">
-                <input type="checkbox" id="setting-autolearn" checked onchange="updateSettings()">
-                <span class="toggle-slider"></span>
-            </label>
-        </div>
-    </div>
-
-    <div class="settings-group">
-        <h3>Admin Access</h3>
-        <div class="setting-item">
-            <div class="setting-info">
-                <label>Admin Login</label>
-                <p>Unlock admin features</p>
-            </div>
-            <div style="display: flex; gap: 10px;">
-                <input type="email" id="setting-admin-email" class="form-input" placeholder="Admin email...">
-                <button class="btn btn-primary" onclick="verifyAdmin()">Login</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="settings-group danger admin-only" style="display: none;">
-        <h3>Data Management</h3>
-        <div class="setting-item">
-            <div class="setting-info">
-                <label>Reset All Data</label>
-                <p>Clear all training data and start fresh</p>
-            </div>
-            <button class="btn btn-danger" onclick="resetAllData()">Reset Everything</button>
-        </div>
-        <div class="setting-item">
-            <div class="setting-info">
-                <label>Export Full Backup</label>
-                <p>Download all data as JSON</p>
-            </div>
-            <button class="btn btn-secondary" onclick="exportFullBackup()">Export Backup</button>
-        </div>
-    </div>
-    </div>
-    </section>
-    </main>
-    </div>
-
-    <!-- Toast Notifications -->
-    <div id="toast-container" class="toast-container"></div>
-
-    <!-- Scripts -->
-    <script src="nlp-engine.js"></script>
-    <script src="knowledge-base.js"></script>
-    <script src="suku-ai.js"></script>    <!-- Massive Training Data (Commented out to prevent browser crash) -->    <script src="RealTime_Facts_suku_training_10k.js"></script>    <script src="Massive_suku_training_Part6_1000k.js"></script>    <script src="Massive_suku_training_NewTopics_100k.js"></script>    <script src="Friendly_Nature_suku_training_100k_5.js"></script>    <script src="Fashion_Design_suku_training_10k.js"></script>    -->    <script src="test_10k_load.js"></script>
+    <script src="app.js"></script>
+    
+    <!-- Massive Training Data (Commented out to prevent browser crash) -->
+    <!-- 
+    <script src="RealTime_Facts_suku_training_10k.js"></script>
+    <script src="Massive_suku_training_Part6_1000k.js"></script>
+    <script src="Massive_suku_training_NewTopics_100k.js"></script>
+    <script src="Friendly_Nature_suku_training_100k_5.js"></script>
+    <script src="Fashion_Design_suku_training_10k.js"></script>
+    <script src="test_10k_load.js"></script>
+    -->
     <script src="test_nanotech_load.js"></script>
 </body>
 
