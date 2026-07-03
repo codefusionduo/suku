@@ -18,11 +18,11 @@ function handleCredentialResponse(response) {
 
     // Hide login overlay
     document.getElementById('login-overlay').classList.add('hidden');
-    
+
     // Show main app container
     const appContainer = document.getElementById('app');
     appContainer.style.display = 'flex';
-    
+
     // Optional: show a welcome toast
     showToast('Signed in successfully!', 'success');
 }
@@ -121,7 +121,7 @@ async function sendMessage() {
 
     // Process message (with simulated delay for realism)
     const delay = getTypingDelay();
-    
+
     setTimeout(async () => {
         try {
             const response = await ai.processMessage(text);
@@ -152,15 +152,15 @@ function addMessage(type, text, confidence = null, processingTime = null) {
     msgDiv.className = `message ${type}`;
 
     const avatar = type === 'ai' ? 'S' : '👤';
-    
+
     // Parse code blocks
     let formattedText = text;
-    
+
     formattedText = formattedText.replace(/```([\w]*)\n([\s\S]*?)```/g, (match, lang, code) => {
         const language = lang || 'Code';
         const displayLang = language.toUpperCase();
         const safeCode = escapeHtml(code.trim());
-        
+
         return `
         <div class="code-block-container">
             <div class="code-block-header">
@@ -185,7 +185,7 @@ function addMessage(type, text, confidence = null, processingTime = null) {
     });
 
     formattedText = formattedText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-        
+
     const parts = formattedText.split(/(<div class="code-block-container">[\s\S]*?<\/div>)/);
     formattedText = parts.map((part, index) => {
         if (index % 2 === 0) return part.replace(/\n/g, '<br>');
@@ -193,13 +193,13 @@ function addMessage(type, text, confidence = null, processingTime = null) {
     }).join('');
 
     let metaHtml = `<span class="message-time">${timeStr}</span>`;
-    
+
     if (type === 'ai' && confidence !== null && confidence > 0) {
         let confClass = 'confidence-low';
         let confLabel = 'Low';
         if (confidence >= 0.7) { confClass = 'confidence-high'; confLabel = 'High'; }
         else if (confidence >= 0.4) { confClass = 'confidence-medium'; confLabel = 'Medium'; }
-        
+
         metaHtml += `<span class="message-confidence ${confClass}">${confLabel} ${Math.round(confidence * 100)}%</span>`;
     }
 
@@ -259,10 +259,10 @@ function clearChat() {
         container.innerHTML = '';
         chatHistory = [];
         saveChatHistory();
-        
+
         // Show welcome screen again
         container.innerHTML = getWelcomeHTML();
-        
+
         showToast('Chat cleared!', 'info');
     }
 }
@@ -292,12 +292,12 @@ function loadChatHistory() {
             if (history.length > 0) {
                 const welcome = document.getElementById('welcome-screen');
                 if (welcome) welcome.style.display = 'none';
-                
+
                 for (const msg of history) {
                     const container = document.getElementById('chat-messages');
                     const timeStr = new Date(msg.time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
                     const avatar = msg.type === 'ai' ? 'S' : '👤';
-                    
+
                     let formattedText = msg.text;
                     formattedText = formattedText.replace(/```([\w]*)\n([\s\S]*?)```/g, (match, lang, code) => {
                         const language = lang || 'Code';
@@ -325,7 +325,7 @@ function loadChatHistory() {
                             <pre class="code-block-content"><code class="language-${language}">${safeCode}</code></pre>
                         </div>`;
                     });
-                    
+
                     formattedText = formattedText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
                     const parts = formattedText.split(/(<div class="code-block-container">[\s\S]*?<\/div>)/);
                     formattedText = parts.map((part, index) => {
@@ -355,7 +355,7 @@ function loadChatHistory() {
                 }
 
                 chatHistory = history;
-                
+
                 // Scroll to bottom
                 const container = document.getElementById('chat-messages');
                 requestAnimationFrame(() => {
@@ -441,7 +441,7 @@ function trainSingle() {
 
 function trainBulk() {
     const jsonText = document.getElementById('train-json').value.trim();
-    
+
     if (!jsonText) {
         showToast('Please paste JSON training data!', 'warning');
         return;
@@ -468,16 +468,16 @@ function exportTrainingData() {
 
 function addTrainingLogEntry(type, message) {
     const container = document.getElementById('training-log-entries');
-    
+
     // Remove empty state
     const empty = container.querySelector('.log-empty');
     if (empty) empty.remove();
 
     const entry = document.createElement('div');
     entry.className = 'log-entry';
-    
+
     const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    
+
     entry.innerHTML = `
         <span class="log-entry-icon ${type}"></span>
         <span class="log-entry-text">${message}</span>
@@ -493,7 +493,7 @@ let currentFilter = 'all';
 function renderKnowledgeBase() {
     const grid = document.getElementById('knowledge-grid');
     let entries = ai.kb.getAll();
-    
+
     // Filter out system entries
     entries = entries.filter(e => e.category !== 'system');
 
@@ -505,7 +505,7 @@ function renderKnowledgeBase() {
     // Apply search filter
     const searchTerm = document.getElementById('knowledge-search')?.value?.toLowerCase() || '';
     if (searchTerm) {
-        entries = entries.filter(e => 
+        entries = entries.filter(e =>
             e.patterns.some(p => p.toLowerCase().includes(searchTerm)) ||
             e.responses.some(r => r.toLowerCase().includes(searchTerm))
         );
@@ -523,12 +523,12 @@ function renderKnowledgeBase() {
 
     grid.innerHTML = entries.map(entry => {
         const catClass = `cat-${entry.category}`;
-        const patternTags = entry.patterns.slice(0, 4).map(p => 
+        const patternTags = entry.patterns.slice(0, 4).map(p =>
             `<span class="pattern-tag">${escapeHtml(p)}</span>`
         ).join('');
         const morePatterns = entry.patterns.length > 4 ? `<span class="pattern-tag">+${entry.patterns.length - 4} more</span>` : '';
-        
-        const responsesList = entry.responses.slice(0, 2).map(r => 
+
+        const responsesList = entry.responses.slice(0, 2).map(r =>
             `<div class="knowledge-response">${escapeHtml(r.substring(0, 120))}${r.length > 120 ? '...' : ''}</div>`
         ).join('');
 
@@ -560,11 +560,11 @@ function renderKnowledgeBase() {
 
 function filterByCategory(category, btn) {
     currentFilter = category;
-    
+
     // Update active filter chip
     document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
     btn.classList.add('active');
-    
+
     renderKnowledgeBase();
 }
 
@@ -590,7 +590,7 @@ function renderAnalytics() {
     document.getElementById('analytics-patterns').textContent = entries.length;
     document.getElementById('analytics-messages').textContent = stats.totalMessages;
     document.getElementById('analytics-accuracy').textContent = ai.kb.getMatchRate() + '%';
-    
+
     const categories = new Set(entries.map(e => e.category));
     document.getElementById('analytics-categories').textContent = categories.size;
 
@@ -711,7 +711,7 @@ function renderConfidenceChart() {
 // ===== SETTINGS FUNCTIONS =====
 function loadSettingsUI() {
     const settings = ai.getSettings();
-    
+
     const nameEl = document.getElementById('setting-name');
     const styleEl = document.getElementById('setting-style');
     const speedEl = document.getElementById('setting-speed');
@@ -753,14 +753,14 @@ function resetAllData() {
         chatHistory = [];
         sessionStorage.removeItem('suku_chat_history');
         localStorage.removeItem('suku_ai_user_memory');
-        
+
         // Re-initialize AI
         ai = new SukuAI();
         loadSettingsUI();
         updateStats();
         renderKnowledgeBase();
         renderAnalytics();
-        
+
         // Reset chat view
         const container = document.getElementById('chat-messages');
         container.innerHTML = getWelcomeHTML();
@@ -778,8 +778,8 @@ function exportFullBackup() {
 function verifyAdmin() {
     const email = document.getElementById('setting-admin-email').value.trim();
     // Simple hash to hide the actual email string in source code
-    const hash = email.split('').reduce((a,b)=>{a=((a<<5)-a)+b.charCodeAt(0);return a&a},0);
-    
+    const hash = email.split('').reduce((a, b) => { a = ((a << 5) - a) + b.charCodeAt(0); return a & a }, 0);
+
     if (hash === -660295202) { // Hash for the admin email
         sessionStorage.setItem('suku_admin', 'true');
         showAdminFeatures();
@@ -799,10 +799,10 @@ function showAdminFeatures() {
 // ===== STATS UPDATE =====
 function updateStats() {
     const entries = ai.kb.getAll().filter(e => e.category !== 'system');
-    
+
     const patternsEl = document.getElementById('stat-patterns');
     if (patternsEl) patternsEl.textContent = entries.length;
-    
+
     const convosEl = document.getElementById('stat-convos');
     if (convosEl) convosEl.textContent = ai.kb.stats.totalMessages;
 }
@@ -851,4 +851,96 @@ function downloadFile(filename, content) {
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
+}
+
+// ===== IMAGE GENERATION =====
+function generateImage() {
+    const promptInput = document.getElementById('image-prompt').value.trim();
+    const aspectRatio = document.getElementById('image-aspect').value;
+    const style = document.getElementById('image-style').value;
+
+    if (!promptInput) {
+        showToast('Please enter a description for your image', 'error');
+        return;
+    }
+
+    const placeholder = document.getElementById('preview-placeholder');
+    const imgElement = document.getElementById('generated-image');
+    const spinner = document.getElementById('image-generating-spinner');
+    const actions = document.getElementById('preview-actions');
+
+    if (placeholder) placeholder.style.display = 'none';
+    if (imgElement) imgElement.style.display = 'none';
+    if (actions) actions.style.display = 'none';
+    if (spinner) spinner.style.display = 'flex';
+
+    let width = 512, height = 512;
+    if (aspectRatio === '16:9') {
+        width = 910; height = 512;
+    } else if (aspectRatio === '9:16') {
+        width = 512; height = 910;
+    }
+
+    let styleText = '';
+    switch (style) {
+        case 'cinematic': styleText = ', Cinematic 3D, Unreal Engine 5 render, dramatic lighting'; break;
+        case 'anime': styleText = ', Anime style, Studio Ghibli, vibrant colors'; break;
+        case 'cyberpunk': styleText = ', Cyberpunk, neon lights, synthwave'; break;
+        case 'watercolor': styleText = ', Watercolor painting, soft strokes, art'; break;
+        case 'digital-art': styleText = ', Modern digital art, masterpiece'; break;
+        case 'pencil': styleText = ', Detailed pencil sketch, shading, monochrome'; break;
+    }
+
+    const finalPrompt = promptInput + styleText;
+    const seed = Math.floor(Math.random() * 1000000);
+    const imageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(finalPrompt)}?width=${width}&height=${height}&seed=${seed}&nologo=true`;
+
+    const img = new Image();
+    img.onload = () => {
+        if (spinner) spinner.style.display = 'none';
+        if (imgElement) {
+            imgElement.src = imageUrl;
+            imgElement.style.display = 'block';
+        }
+        if (actions) actions.style.display = 'flex';
+        showToast('Art generated successfully!', 'success');
+    };
+    img.onerror = () => {
+        if (spinner) spinner.style.display = 'none';
+        if (placeholder) placeholder.style.display = 'flex';
+        showToast('Failed to generate image. Please try again.', 'error');
+    };
+    img.src = imageUrl;
+}
+
+function downloadGeneratedImage() {
+    const imgElement = document.getElementById('generated-image');
+    if (!imgElement || !imgElement.src || imgElement.style.display === 'none') return;
+
+    const a = document.createElement('a');
+    a.href = imgElement.src;
+    a.download = `suku_art_${Date.now()}.jpg`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    showToast('Image downloaded!', 'success');
+}
+
+function shareGeneratedImage() {
+    const imgElement = document.getElementById('generated-image');
+    if (!imgElement || !imgElement.src || imgElement.style.display === 'none') return;
+
+    // Switch to chat view
+    switchView('chat');
+
+    // Add it to context
+    const aiResponse = `Here is the art you created: <br><br><img src="${imgElement.src}" style="max-width: 100%; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);" />`;
+
+    ai.context.push({ role: 'ai', text: aiResponse, timestamp: Date.now() });
+    chatHistory.push({ role: 'ai', text: aiResponse, timestamp: Date.now() });
+
+    saveChatHistory();
+    appendMessage('ai', aiResponse, true);
+
+    showToast('Sent to chat!', 'success');
 }
